@@ -1,23 +1,34 @@
-module.exports ={
-    root: true,
-    plugins: ['prettier'],
-    extends: [
-        'eslint:recommended',
-        'react-app',
-        'react-app/jest',
-        'plugin:import/recommended',
-        'plugin:import/typescript'
-
-    ],
-    rules: {
-        'prettier/prettier': "warn",
+module.exports = {
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "node": true,
+      "jest": true
     },
-    settings: {
-        'import/resolver': {
-            node: {
-                paths: ['src'],
-            }
-        }
+    "extends": [
+      "plugin:react/recommended",
+      "standard",
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:prettier/recommended"
+    ],
+    "settings": {
+      "react": { "version": "detect" }
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "plugins": ["react", "@typescript-eslint", "prettier"],
+    "rules": {
+      "prettier/prettier": "error",
+      "space-before-function-paren": "off",
+      "react/prop-types": "off",
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": "off"
     }
-  
-}
+  }

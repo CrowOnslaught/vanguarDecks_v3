@@ -1,5 +1,5 @@
 {
-  "name": "vanguard_database_v2",
+  "name": "vanguardecks_v3",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,24 +9,22 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@next/eslint-plugin-next": "^12.1.4",
-    "firebase": "^9.6.10",
-    "firebase-admin": "^10.0.2",
-    "firebaseui": "^6.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint-plugin-react": "^7.29.4",
     "next": "12.1.4",
     "react": "18.0.0",
-    "react-dom": "18.0.0",
-    "styled-components": "^5.3.5",
-    "swr": "^1.2.2",
-    "swr-firestore-v9": "^1.0.5"
+    "react-dom": "18.0.0"
   },
   "devDependencies": {
     "@types/node": "17.0.23",
-    "@types/react": "17.0.43",
-    "@types/react-dom": "17.0.14",
-    "@types/styled-components": "^5.1.24",
-    "eslint": "^8.12.0",
+    "@types/react": "18.0.0",
+    "@types/react-dom": "18.0.0",
+    "eslint": "8.12.0",
     "eslint-config-next": "12.1.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
     "typescript": "4.6.3"
   }
 }
