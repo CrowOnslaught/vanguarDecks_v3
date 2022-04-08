@@ -1,9 +1,19 @@
+import firebase from 'firebase';
 import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
+import Router from 'next/router';
 
 const Home: NextPage = () => {
-  return <h1>Hellouda</h1>;
+  const onLogOut = () => {
+    firebase.auth().signOut();
+    Router.push('/login');
+  };
+
+  return (
+    <>
+      <h1>Hellouda</h1>
+      <button onClick={onLogOut}>logout</button>
+    </>
+  );
 };
 
 export default Home;
