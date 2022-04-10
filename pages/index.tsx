@@ -1,12 +1,16 @@
+import styled from '@emotion/styled';
 import firebase from 'firebase';
-import type { NextPage } from 'next';
+import { Button, theme, Switch } from '@chakra-ui/react';
 import {
   AuthAction,
   useAuthUser,
   withAuthUser,
   withAuthUserTokenSSR,
 } from 'next-firebase-auth';
-import Router from 'next/router';
+
+const TestButton = styled(Button)`
+  margin: ${() => theme.space[2]};
+`;
 
 const Home = () => {
   const user = useAuthUser();
@@ -18,8 +22,13 @@ const Home = () => {
   return (
     <>
       <h1>Hellouda</h1>
-      <p>{JSON.stringify(user)}</p>
-      {user.id && <button onClick={onLogOut}>logout</button>}
+      <p>{JSON.stringify(user.id)}</p>
+      <Switch colorScheme="purple" />
+      {user.id && (
+        <TestButton colorScheme="purple" onClick={onLogOut}>
+          logout
+        </TestButton>
+      )}
     </>
   );
 };

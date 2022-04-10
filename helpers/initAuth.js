@@ -4,8 +4,8 @@ const initAuth = () => {
   init({
     authPageURL: '/login',
     appPageURL: '/',
-    loginAPIEndpoint: '/api/login', // required
-    logoutAPIEndpoint: '/api/logout', // required
+    loginAPIEndpoint: '/api/auth/login', // required
+    logoutAPIEndpoint: '/api/auth/logout', // required
     firebaseAdminInitConfig: {
       credential: {
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
