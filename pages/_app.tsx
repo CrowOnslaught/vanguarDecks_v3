@@ -20,6 +20,14 @@ const GlobalStyle = injectGlobal`
     )};
     ${adaptiveColor('color', theme.colors.black, theme.colors.white)};
   }
+
+
+  @font-face {
+    font-family: 'Lobster';
+    src: url('/fonts/Lobster-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
 `;
 
 initAuth();

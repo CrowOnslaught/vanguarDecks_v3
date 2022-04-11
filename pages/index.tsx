@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import firebase from 'firebase';
-import { Button, theme, Switch } from '@chakra-ui/react';
+import { Text, theme, Switch } from '@chakra-ui/react';
 import {
   AuthAction,
   useAuthUser,
@@ -8,8 +8,9 @@ import {
   withAuthUserTokenSSR,
 } from 'next-firebase-auth';
 
-const TestButton = styled(Button)`
-  margin: ${() => theme.space[2]};
+const Title = styled(Text)`
+  font-family: 'Lobster';
+  font-size: 40px;
 `;
 
 const Home = () => {
@@ -17,7 +18,7 @@ const Home = () => {
 
   return (
     <>
-      <h1>Cards</h1>
+      <Title>Cards</Title>
       <p>{JSON.stringify(user.id)}</p>
       <Switch colorScheme="purple" />
     </>

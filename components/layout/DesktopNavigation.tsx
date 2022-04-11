@@ -1,5 +1,7 @@
 import { Text, Flex, Button, theme } from '@chakra-ui/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import NavigationButton from 'components/NavigationButton';
 import firebase from 'firebase';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -22,7 +24,7 @@ const DesktopNavigationContainer = styled(Flex)`
   ${adaptiveColor(
     'background-color',
     theme.colors.purple[300],
-    theme.colors.purple[900]
+    theme.colors.purple[800]
   )};
 `;
 
@@ -81,12 +83,14 @@ const DesktopNavigation: React.FC = () => {
             <DesktopNavigationUpTitle>{item.upTitle}</DesktopNavigationUpTitle>
           )}
 
-          <Button
-            onClick={e => onNavigationItemClick(e, item)}
-            colorScheme="purple"
-            variant={item.route == route ? 'solid' : 'outline'}>
+          <NavigationButton
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
+              onNavigationItemClick(e, item)
+            }
+            variant={item.route == route ? 'solid' : 'outline'}
+            selected={item.route == route}>
             {item.label}
-          </Button>
+          </NavigationButton>
         </React.Fragment>
       ))}
     </DesktopNavigationContainer>
