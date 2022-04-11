@@ -15,20 +15,11 @@ const TestButton = styled(Button)`
 const Home = () => {
   const user = useAuthUser();
 
-  const onLogOut = () => {
-    firebase.auth().signOut();
-  };
-
   return (
     <>
-      <h1>Hellouda</h1>
+      <h1>Cards</h1>
       <p>{JSON.stringify(user.id)}</p>
       <Switch colorScheme="purple" />
-      {user.id && (
-        <TestButton colorScheme="purple" onClick={onLogOut}>
-          logout
-        </TestButton>
-      )}
     </>
   );
 };
