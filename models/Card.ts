@@ -1,0 +1,47 @@
+export default interface Card {
+  cardtype: string;
+  clan: string;
+  critical: number;
+  designillus: string;
+  effect: string;
+  flavor: string;
+  format: string;
+  grade: number;
+  id: number;
+  illust: string;
+  illust2: string;
+  illust3: string;
+  illust4: string;
+  illust5: string;
+  illustcolor: string;
+  imageurlen: string;
+  imageurljp: string;
+  imaginarygift: string;
+  italian: string;
+  kana: string;
+  kanji: string;
+  korean: string;
+  limitationtext: string;
+  mangaillust: string;
+  name: string;
+  nation: string;
+  note: string;
+  othernames: string;
+  phonetic: string;
+  power: number;
+  race: string;
+  rideskill: string;
+  sets: Array<string>;
+  shield: number;
+  skill: string;
+  thai: string;
+  tournamentstatuses: {
+    en: string;
+    it: string;
+    jp: string;
+    kr: string;
+    th: string;
+  };
+  translation: string;
+  triggereffect: string;
+}

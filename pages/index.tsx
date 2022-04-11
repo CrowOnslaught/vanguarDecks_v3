@@ -7,6 +7,8 @@ import {
   withAuthUser,
   withAuthUserTokenSSR,
 } from 'next-firebase-auth';
+import useCards from 'services/useCards';
+import InfiniteScroll from 'components/layout/InfiniteScroll';
 
 const Title = styled(Text)`
   font-family: 'Lobster';
@@ -14,13 +16,14 @@ const Title = styled(Text)`
 `;
 
 const Home = () => {
-  const user = useAuthUser();
+  const { cards } = useCards();
+
+  if (!cards) return <>b</>;
 
   return (
     <>
       <Title>Cards</Title>
-      <p>{JSON.stringify(user.id)}</p>
-      <Switch colorScheme="purple" />
+      <InfiniteScroll data={cards} />
     </>
   );
 };
