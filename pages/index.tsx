@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import firebase from 'firebase';
-import { Text, theme, Switch } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import {
   AuthAction,
   useAuthUser,
@@ -9,29 +8,43 @@ import {
 } from 'next-firebase-auth';
 import useCards from 'services/useCards';
 import InfiniteScroll from 'components/layout/InfiniteScroll';
+import { useEffect, useState } from 'react';
+import { Input } from '@chakra-ui/react';
+import Card from 'models/Card';
+import { GetServerSideProps } from 'next/types';
 
 const Title = styled(Text)`
   font-family: 'Lobster';
   font-size: 40px;
 `;
 
-const Home = () => {
-  const { cards } = useCards();
+interface HomeProps {
+  cards: Array<Card>;
+}
 
-  if (!cards) return <>b</>;
+const Home = ({ cards }: HomeProps) => {
+  const [currentCards, setCurrentCards] = useState<Array<Card>>(cards);
+
+  useEffect(() => {
+    setCurrentCards(cards);
+    console.log('hola', cards);
+  }, [cards]);
+
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+  };
+
+  if (!currentCards) return <>b</>;
 
   return (
     <>
       <Title>Cards</Title>
-      <InfiniteScroll data={cards} />
+      <Input onChange={onSearch} placeholder="Search" />
+      <InfiniteScroll data={currentCards} />
     </>
   );
 };
 
-export const getServerSideProps = withAuthUserTokenSSR({
-  whenUnauthed: AuthAction.REDIRECT_TO_LOGIN,
-})();
+export const getServerSideProps: GetServerSideProps = async context => {};
 
-export default withAuthUser({
-  whenUnauthedAfterInit: AuthAction.REDIRECT_TO_LOGIN,
-})(Home);
+export default Home;

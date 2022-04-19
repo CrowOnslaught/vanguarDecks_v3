@@ -22,17 +22,15 @@ export default function useCards(params?: Record<string, any>) {
     error,
     isValidating,
     mutate: mutateCards,
-  } = useSWR<responseProps>(`/api/cards/${queryString}`, fetcher);
+  } = useSWR<responseProps>(`/api/cards?${queryString}`, fetcher);
 
   const updateCards = async (params?: Record<string, any>) => {
     let qs = params ? { ...params } : {};
     qs.page = qs.page || '1';
 
     const queryString = objectToQueryString(qs);
-    const res = await fetch(
-      `https://card-fight-vanguard-api.ue.r.appspot.com/api/v1/cards?${queryString}`
-    );
-    console.log(res.json());
+
+    const res = await fetch(`/api/cards?${queryString}`);
     return mutateCards(res.json());
   };
 
