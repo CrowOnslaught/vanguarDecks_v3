@@ -1,58 +1,44 @@
 import Card from 'models/Card';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import useCards from 'services/useCards';
 import Image from 'next/image';
 import { Grid, GridItem } from '@chakra-ui/react';
 
-const Content = ({ data, filters }: any) => {
-  const [currentCards, setCurrentCards] = useState<Array<Card>>(data);
+interface ContentProps {
+  data: Array<Card>;
+  filters: any;
+  nextPage: () => void;
+}
+
+const Content = ({ data, filters, nextPage }: ContentProps) => {
   const [hasMore, setHasMore] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const { cards, updateCards } = useCards();
-
-  const getMoreCards = async () => {
-    const nextPage = currentPage + 1;
-    const res = (await updateCards({ page: nextPage })) as unknown;
-    setCurrentPage(nextPage);
-
-    try {
-      if (res) {
-        const nextCards = [...currentCards, ...(res as Card[])];
-        setCurrentCards(nextCards);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  if (!currentCards) return <>a</>;
+  if (!data) return <>a</>;
 
   return (
     <>
       <InfiniteScroll
-        dataLength={currentCards.length}
-        next={getMoreCards}
+        dataLength={data.length}
+        next={nextPage}
         hasMore={hasMore}
         loader={<h3> Loading...</h3>}
         endMessage={<h4>Nothing more to show</h4>}>
         <Grid templateColumns="repeat(4, 1fr)" gap={2}>
-          {currentCards.map(data => (
-            <GridItem key={data.id}>
+          {data.map(card => (
+            <GridItem key={card.id}>
               <div>
                 <Image
-                  src={data.photo}
-                  alt={data.name}
+                  src={card.photo}
+                  alt={card.name}
                   layout="responsive"
                   width={350}
                   height={510}
                   placeholder="blur"
-                  blurDataURL={data.photo}
+                  blurDataURL={card.photo}
                 />
-                <strong> {data.id}</strong> {data.name}
+                <strong> {card.id}</strong> {card.name}
               </div>
-              {data.effect}
+              {card.effect}
             </GridItem>
           ))}
         </Grid>
