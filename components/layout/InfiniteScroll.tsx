@@ -38,7 +38,6 @@ const Content = ({ data, filters, nextPage }: ContentProps) => {
                 />
                 <strong> {card.id}</strong> {card.name}
               </div>
-              {card.effect}
             </GridItem>
           ))}
         </Grid>

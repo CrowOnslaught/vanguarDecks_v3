@@ -6,7 +6,6 @@ import {
   withAuthUser,
   withAuthUserTokenSSR,
 } from 'next-firebase-auth';
-import useCards from 'services/useCards';
 import InfiniteScroll from 'components/layout/InfiniteScroll';
 import { useEffect, useMemo, useState } from 'react';
 import { Input } from '@chakra-ui/react';
@@ -29,7 +28,7 @@ const Home = ({ cards }: HomeProps) => {
 
   useMemo(() => {
     setCurrentCards(oldArray => [...oldArray, ...currentCards]);
-  }, [currentCards]);
+  }, [cards]);
 
   const nextPage = () => {
     if (!router.query.page) {
@@ -49,7 +48,7 @@ const Home = ({ cards }: HomeProps) => {
     const { value } = e.target;
   };
 
-  if (!currentCards) return <>b</>;
+  if (!currentCards) return <>No cards displayed</>;
 
   return (
     <>
