@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Text } from '@chakra-ui/react';
+import { Text, theme } from '@chakra-ui/react';
 import {
   AuthAction,
   useAuthUser,
@@ -21,6 +21,10 @@ const Title = styled(Text)`
 interface HomeProps {
   cards: Array<Card>;
 }
+
+const HomeInfiniteScroll = styled(InfiniteScroll)`
+  margin-top: ${theme.space[4]};
+`;
 
 const Home = ({ cards }: HomeProps) => {
   const router = useRouter();
@@ -54,7 +58,11 @@ const Home = ({ cards }: HomeProps) => {
     <>
       <Title>Cards</Title>
       <Input onChange={onSearch} placeholder="Search" />
-      <InfiniteScroll data={currentCards} filters={{}} nextPage={nextPage} />
+      <HomeInfiniteScroll
+        data={currentCards}
+        filters={{}}
+        nextPage={nextPage}
+      />
     </>
   );
 };

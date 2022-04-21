@@ -2,18 +2,19 @@ import Card from 'models/Card';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Image from 'next/image';
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, Text } from '@chakra-ui/react';
 
 interface ContentProps {
   data: Array<Card>;
   filters: any;
   nextPage: () => void;
+  className?: string;
 }
 
-const Content = ({ data, filters, nextPage }: ContentProps) => {
+const Content = ({ data, filters, nextPage, className }: ContentProps) => {
   const [hasMore, setHasMore] = useState(true);
 
-  if (!data) return <>a</>;
+  if (!data) return <>no cards</>;
 
   return (
     <>
@@ -22,7 +23,8 @@ const Content = ({ data, filters, nextPage }: ContentProps) => {
         next={nextPage}
         hasMore={hasMore}
         loader={<h3> Loading...</h3>}
-        endMessage={<h4>Nothing more to show</h4>}>
+        endMessage={<h4>Nothing more to show</h4>}
+        className={className}>
         <Grid templateColumns="repeat(4, 1fr)" gap={2}>
           {data.map(card => (
             <GridItem key={card.id}>
@@ -36,7 +38,12 @@ const Content = ({ data, filters, nextPage }: ContentProps) => {
                   placeholder="blur"
                   blurDataURL={card.photo}
                 />
-                <strong> {card.id}</strong> {card.name}
+                <Text fontSize="sm" as="strong" align="center">
+                  {card.id}
+                </Text>
+                <Text fontSize="xs" align="center">
+                  {card.name}
+                </Text>
               </div>
             </GridItem>
           ))}
