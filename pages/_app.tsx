@@ -1,12 +1,12 @@
-import 'styles/globals.css';
-import type { AppProps } from 'next/app';
-import initAuth from 'helpers/initAuth';
-import { ChakraProvider, theme } from '@chakra-ui/react';
-import MainLayout from 'components/layout/MainLayout';
-import { injectGlobal } from '@emotion/css';
-import emotionNormalize from 'emotion-normalize';
-import { adaptiveColor } from 'styles/mixins';
-
+import "styles/globals.css";
+import type { AppProps } from "next/app";
+import initAuth from "helpers/initAuth";
+import { ChakraProvider, theme } from "@chakra-ui/react";
+import MainLayout from "components/layout/MainLayout";
+import { injectGlobal } from "@emotion/css";
+import emotionNormalize from "emotion-normalize";
+import { adaptiveColor } from "styles/mixins";
+import { jsx, ThemeProvider } from "@emotion/react";
 const GlobalStyle = injectGlobal`
   ${emotionNormalize};
   
@@ -14,11 +14,11 @@ const GlobalStyle = injectGlobal`
     width: 100%;
     height: 100%;
     ${adaptiveColor(
-      'background-color',
+      "background-color",
       theme.colors.white,
       theme.colors.black
     )};
-    ${adaptiveColor('color', theme.colors.black, theme.colors.white)};
+    ${adaptiveColor("color", theme.colors.black, theme.colors.white)};
   }
 
   #__next {
@@ -37,11 +37,13 @@ const GlobalStyle = injectGlobal`
 initAuth();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <MainLayout>
-        <Component {...pageProps} />
-      </MainLayout>
-    </ChakraProvider>
+    <ThemeProvider theme={theme}>
+      <ChakraProvider>
+        <MainLayout>
+          <Component {...pageProps} />
+        </MainLayout>
+      </ChakraProvider>
+    </ThemeProvider>
   );
 }
 

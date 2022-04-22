@@ -1,20 +1,14 @@
-import styled from '@emotion/styled';
-import { Text, theme } from '@chakra-ui/react';
-import {
-  AuthAction,
-  useAuthUser,
-  withAuthUser,
-  withAuthUserTokenSSR,
-} from 'next-firebase-auth';
-import InfiniteScroll from 'components/layout/InfiniteScroll';
-import { useEffect, useMemo, useState } from 'react';
-import { Input } from '@chakra-ui/react';
-import Card from 'models/Card';
-import { GetServerSideProps } from 'next/types';
-import { useRouter } from 'next/router';
+import styled from "@emotion/styled";
+import { Text, theme } from "@chakra-ui/react";
+import InfiniteScroll from "components/layout/InfiniteScroll";
+import { useMemo, useState } from "react";
+import { Input } from "@chakra-ui/react";
+import Card from "models/Card";
+import { GetServerSideProps } from "next/types";
+import { useRouter } from "next/router";
 
 const Title = styled(Text)`
-  font-family: 'Lobster';
+  font-family: "Lobster";
   font-size: 40px;
 `;
 
@@ -24,6 +18,7 @@ interface HomeProps {
 
 const HomeInfiniteScroll = styled(InfiniteScroll)`
   margin-top: ${theme.space[4]};
+  overflow: hidden;
 `;
 
 const Home = ({ cards }: HomeProps) => {

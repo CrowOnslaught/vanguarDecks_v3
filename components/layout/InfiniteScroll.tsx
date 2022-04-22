@@ -22,7 +22,7 @@ const CardDescrition = styled(StyledCardDescription)`
   top: 100%;
   transition: all 0.5s ease-in;
   padding: ${(p: any) => p.theme.space[4]};
-  background-color: #0000007d;
+  background-color: #00000099;
 
   width: 100%;
   height: 100%;
@@ -77,8 +77,8 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
                 />
                 <CardDescrition
                   className="floatingText"
-                  fontSize="md"
-                  align="justify"
+                  fontSize="xs"
+                  align="left"
                   text={card.description}
                 />
 
