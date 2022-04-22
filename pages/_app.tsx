@@ -21,6 +21,10 @@ const GlobalStyle = injectGlobal`
     ${adaptiveColor('color', theme.colors.black, theme.colors.white)};
   }
 
+  #__next {
+    width: 100%;
+    height: 100%;
+  }
 
   @font-face {
     font-family: 'Lobster';

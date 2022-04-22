@@ -18,7 +18,7 @@ const MainContainer = styled.div`
   width: 100%;
   ${desktop(
     css`
-      margin: 0;
+      margin: auto;
     `
   )}
 `;
