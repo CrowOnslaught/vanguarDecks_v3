@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { withIronSessionSsr } from "iron-session/next";
 import { Text, theme } from '@chakra-ui/react';
 import {
   AuthAction,
@@ -12,6 +13,9 @@ import { Input } from '@chakra-ui/react';
 import Card from 'models/Card';
 import { GetServerSideProps } from 'next/types';
 import { useRouter } from 'next/router';
+import { session } from 'lib/apiCards/session';
+import { getCards } from 'lib/apiCards/services';
+
 
 const Title = styled(Text)`
   font-family: 'Lobster';
@@ -67,25 +71,22 @@ const Home = ({ cards }: HomeProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const cards = await fetch(
-    `http://localhost:3000/api/cards?page=${query.page || 1}`
-  );
-  const cardsJson = await cards.json();
-
-  if (query.page) {
-    return {
-      props: {
-        cards: cardsJson,
-      },
-    };
-  }
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async ({ req, query }) => {
+  const { token } = await session(req.session);
+  const cards = await getCards(token.token);
 
   return {
     props: {
-      cards: cardsJson,
+      cards: cards.results,
     },
   };
-};
+}, {
+  cookieName: "varnguardecks_session",
+  password: "complex_password_at_least_32_characters_long",
+  // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
+  cookieOptions: {
+    secure: process.env.NODE_ENV === "production",
+  },
+},)
 
 export default Home;

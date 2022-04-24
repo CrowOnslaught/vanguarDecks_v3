@@ -66,13 +66,13 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
             <CardItem key={card.id + index}>
               <div>
                 <Image
-                  src={card.photo}
+                  src={card.image}
                   alt={card.name}
                   layout="responsive"
                   width={350}
                   height={510}
                   placeholder="blur"
-                  blurDataURL={card.photo}
+                  blurDataURL={card.image}
                   className="cardImage"
                 />
                 <CardDescrition
