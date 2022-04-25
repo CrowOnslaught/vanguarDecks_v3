@@ -44,6 +44,10 @@ const CardItem = styled(GridItem)`
   }
 `;
 
+const InfiniteScrollGrid = styled(Grid)`
+  overflow: hidden;
+`;
+
 const Content = ({ data, filters, nextPage, className }: ContentProps) => {
   const [hasMore, setHasMore] = useState(true);
 
@@ -53,12 +57,12 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
     <>
       <InfiniteScroll
         dataLength={data.length}
-        next={nextPage}
+        next={() => {}}
         hasMore={hasMore}
         loader={<h3> Loading...</h3>}
         endMessage={<h4>Nothing more to show</h4>}
         className={className}>
-        <Grid
+        <InfiniteScrollGrid
           templateColumns="repeat(4, 1fr)"
           gap={2}
           autoColumns="min-content">
@@ -81,7 +85,6 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
                   align="left"
                   text={card.description}
                 />
-
                 <CardTitle fontSize="lg" align="center">
                   {card.card_id}
                 </CardTitle>
@@ -91,7 +94,7 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
               </div>
             </CardItem>
           ))}
-        </Grid>
+        </InfiniteScrollGrid>
       </InfiniteScroll>
     </>
   );

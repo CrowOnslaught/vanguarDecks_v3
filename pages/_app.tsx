@@ -1,13 +1,14 @@
 import "styles/globals.css";
 import type { AppProps } from "next/app";
 import initAuth from "helpers/initAuth";
-import { ChakraProvider, theme } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme, theme } from "@chakra-ui/react";
 import MainLayout from "components/layout/MainLayout";
 import { injectGlobal } from "@emotion/css";
 import emotionNormalize from "emotion-normalize";
 import { adaptiveColor } from "styles/mixins";
 import { jsx, ThemeProvider } from "@emotion/react";
-const GlobalStyle = injectGlobal`
+
+injectGlobal`
   ${emotionNormalize};
   
   html, body {
@@ -19,6 +20,22 @@ const GlobalStyle = injectGlobal`
       theme.colors.black
     )};
     ${adaptiveColor("color", theme.colors.black, theme.colors.white)};
+    
+    * {
+      ::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+      }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: ${theme.colors.purple[700]};
+      }
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: ${theme.colors.teal[300]};
+        border-radius: 10px;
+      }
+    }
   }
 
   #__next {
@@ -36,13 +53,11 @@ const GlobalStyle = injectGlobal`
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
-      <ChakraProvider>
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
-      </ChakraProvider>
-    </ThemeProvider>
+    <ChakraProvider>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </ChakraProvider>
   );
 }
 

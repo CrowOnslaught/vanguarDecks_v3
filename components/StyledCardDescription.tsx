@@ -60,21 +60,6 @@ const StyledText = styled(Text)`
   .circle {
     color: goldenrod;
   }
-
-  ::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: ${(p: any) => p.theme.colors.purple[700]};
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: ${(p: any) => p.theme.colors.teal[300]};
-    border-radius: 10px;
-  }
 `;
 
 const StyledCardDescription = (props: styledDescriptionProps) => {
