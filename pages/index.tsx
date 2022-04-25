@@ -1,19 +1,18 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 import { withIronSessionSsr } from "iron-session/next";
-import { Text, theme } from '@chakra-ui/react';
-import InfiniteScroll from 'components/layout/InfiniteScroll';
-import { useMemo, useState } from 'react';
-import { Input } from '@chakra-ui/react';
-import Card from 'models/Card';
-import { GetServerSideProps } from 'next/types';
-import { useRouter } from 'next/router';
-import { getCards } from 'lib/apiCards/services';
-import { getSession } from 'helpers/getSession';
-import { sessionConfig } from 'config/sessionConfig';
-
+import { Text, theme } from "@chakra-ui/react";
+import InfiniteScroll from "components/layout/InfiniteScroll";
+import { useMemo, useState } from "react";
+import { Input } from "@chakra-ui/react";
+import Card from "models/Card";
+import { GetServerSideProps } from "next/types";
+import { useRouter } from "next/router";
+import { getCards } from "lib/apiCards/services";
+import { getSession } from "helpers/getSession";
+import { sessionConfig } from "config/sessionConfig";
 
 const Title = styled(Text)`
-  font-family: 'Lobster';
+  font-family: "Lobster";
   font-size: 40px;
 `;
 
@@ -23,6 +22,7 @@ interface HomeProps {
 
 const HomeInfiniteScroll = styled(InfiniteScroll)`
   margin-top: ${theme.space[4]};
+  overflow: hidden;
 `;
 
 const Home = ({ cards }: HomeProps) => {
@@ -66,15 +66,18 @@ const Home = ({ cards }: HomeProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async ({ req,res, resolvedUrl }) => {
-  const tokens = getSession(req, res, resolvedUrl);
-  const cards = await getCards(tokens?.access.token || "");
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
+  async ({ req, res, resolvedUrl }) => {
+    const tokens = getSession(req, res, resolvedUrl);
+    const cards = await getCards(tokens?.access.token || "");
 
-  return {
-    props: {
-      cards: cards.results,
-    },
-  };
-}, sessionConfig)
+    return {
+      props: {
+        cards: cards.results,
+      },
+    };
+  },
+  sessionConfig
+);
 
 export default Home;

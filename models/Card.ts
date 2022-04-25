@@ -1,12 +1,13 @@
 export default interface Card {
-  id: string;
+  card_id: string;
   name: string;
   description: string;
-  photo: string;
+  image: string;
   type: string;
   clan: string;
   grade: string;
   power: string;
   shield: string;
   regulation: Array<string>;
+  originalPhoto: string;
 }
