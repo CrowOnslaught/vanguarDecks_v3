@@ -1,5 +1,5 @@
 
-import { getToken, renewToken} from 'lib/apiCards/services'
+import { getToken } from 'lib/apiCards/services'
 
 export const session = async (session:any) => {
     if (!session.token) {

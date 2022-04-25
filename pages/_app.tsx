@@ -1,6 +1,5 @@
 import 'styles/globals.css';
 import type { AppProps } from 'next/app';
-import initAuth from 'helpers/initAuth';
 import { ChakraProvider, theme } from '@chakra-ui/react';
 import MainLayout from 'components/layout/MainLayout';
 import { injectGlobal } from '@emotion/css';
@@ -34,7 +33,6 @@ const GlobalStyle = injectGlobal`
   }
 `;
 
-initAuth();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider>

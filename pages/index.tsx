@@ -1,20 +1,15 @@
 import styled from '@emotion/styled';
 import { withIronSessionSsr } from "iron-session/next";
 import { Text, theme } from '@chakra-ui/react';
-import {
-  AuthAction,
-  useAuthUser,
-  withAuthUser,
-  withAuthUserTokenSSR,
-} from 'next-firebase-auth';
 import InfiniteScroll from 'components/layout/InfiniteScroll';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Input } from '@chakra-ui/react';
 import Card from 'models/Card';
 import { GetServerSideProps } from 'next/types';
 import { useRouter } from 'next/router';
-import { session } from 'lib/apiCards/session';
 import { getCards } from 'lib/apiCards/services';
+import { getSession } from 'helpers/getSession';
+import { sessionConfig } from 'config/sessionConfig';
 
 
 const Title = styled(Text)`
@@ -71,22 +66,15 @@ const Home = ({ cards }: HomeProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async ({ req, query }) => {
-  const { token } = await session(req.session);
-  const cards = await getCards(token.token);
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async ({ req,res, resolvedUrl }) => {
+  const tokens = getSession(req, res, resolvedUrl);
+  const cards = await getCards(tokens?.access.token || "");
 
   return {
     props: {
       cards: cards.results,
     },
   };
-}, {
-  cookieName: "varnguardecks_session",
-  password: "complex_password_at_least_32_characters_long",
-  // secure: true should be used in production (HTTPS) but can't be used in development (HTTP)
-  cookieOptions: {
-    secure: process.env.NODE_ENV === "production",
-  },
-},)
+}, sessionConfig)
 
 export default Home;

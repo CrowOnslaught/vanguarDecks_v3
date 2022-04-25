@@ -1,16 +1,11 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { unsetAuthCookies } from 'next-firebase-auth';
-import initAuth from 'helpers/initAuth';
+import { withIronSessionApiRoute } from "iron-session/next";
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { sessionConfig } from "config/sessionConfig";
 
-initAuth();
+export default withIronSessionApiRoute(impersonateRoute, sessionConfig);
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<any>) => {
-  try {
-    await unsetAuthCookies(req, res);
-  } catch (e) {
-    return res.status(500).json({ error: 'Unexpected error.', message: e });
-  }
-  return res.status(200).json({ success: true });
-};
-
-export default handler;
+async function impersonateRoute(req:NextApiRequest, res:NextApiResponse) {
+    await req.session.destroy();
+    res.writeHead(307, { Location: '/login' })
+    res.end()
+}
