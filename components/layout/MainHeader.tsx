@@ -1,44 +1,46 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import styled from "@emotion/styled";
-import { IconButton } from "@chakra-ui/react";
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  height: 28px;
-  margin: 16px 0;
-  padding: 0 16px;
-`;
+import { IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Avatar } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { VisibilityDesktop } from "components/utils/Visibility";
 
 interface MainHeaderProps {
   className?: string;
   navigationOpen: boolean;
   toggleNavigation: (e: boolean) => void;
+  logged?: boolean;
 }
 
 const MainHeader: React.FC<MainHeaderProps> = ({
-  className,
   navigationOpen,
   toggleNavigation,
+  logged = true,
 }) => {
+  const titleColor = useColorModeValue("purple.600", "white");
+
   return (
-    <HeaderContainer>
-      {!navigationOpen ? (
-        <IconButton
-          size="xl"
-          aria-label=""
-          variant="unstyled"
-          icon={<HamburgerIcon />}
-          onClick={() => toggleNavigation(true)}
-        />
-      ) : (
-        <div></div>
+    <Flex align="center" justify={logged ? "space-between" : "center"} p="4">
+      {logged && (
+        <VisibilityDesktop>
+          <IconButton
+            aria-label=""
+            variant="unstyled"
+            icon={<HamburgerIcon boxSize="2em" />}
+            onClick={() => {
+              toggleNavigation(!navigationOpen);
+            }}
+          />
+        </VisibilityDesktop>
       )}
-      <p>VanguarDecks</p>
-      <p>photo</p>
-    </HeaderContainer>
+      <Heading color={titleColor} size="lg">
+        VanguarDecks
+      </Heading>
+
+      {logged && (
+        <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+      )}
+    </Flex>
   );
 };
 

@@ -1,21 +1,15 @@
 import styled from "@emotion/styled";
 import { withIronSessionSsr } from "iron-session/next";
-import { Text, theme } from '@chakra-ui/react';
-import InfiniteScroll from 'components/layout/InfiniteScroll';
-import { useMemo, useState } from 'react';
-import { Input } from '@chakra-ui/react';
-import Card from 'models/Card';
-import { GetServerSideProps } from 'next/types';
-import { useRouter } from 'next/router';
-import { getCards } from 'services/apiCards';
-import { getSession } from 'helpers/getSession';
-import { sessionConfig } from 'config/sessionConfig';
-
-
-const Title = styled(Text)`
-  font-family: "Lobster";
-  font-size: 40px;
-`;
+import { Heading, theme } from "@chakra-ui/react";
+import InfiniteScroll from "components/layout/InfiniteScroll";
+import { useMemo, useState } from "react";
+import { Input } from "@chakra-ui/react";
+import Card from "models/Card";
+import { GetServerSideProps } from "next/types";
+import { useRouter } from "next/router";
+import { getCards } from "services/apiCards";
+import { getSession } from "helpers/getSession";
+import { sessionConfig } from "config/sessionConfig";
 
 interface HomeProps {
   cards: Array<Card>;
@@ -56,7 +50,7 @@ const Home = ({ cards }: HomeProps) => {
 
   return (
     <>
-      <Title>Cards</Title>
+      <Heading size="2xl">Cards</Heading>
       <Input onChange={onSearch} placeholder="Search" />
       <HomeInfiniteScroll
         data={currentCards}

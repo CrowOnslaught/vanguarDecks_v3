@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, IconButton, Text } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
+import { Button, Text } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 
 interface IconButtonProps {
