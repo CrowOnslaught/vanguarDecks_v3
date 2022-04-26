@@ -1,19 +1,53 @@
-import Card from 'models/Card';
-import React, { useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import Image from 'next/image';
-import { Grid, GridItem } from '@chakra-ui/react';
-
+import Card from "models/Card";
+import React, { useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Image from "next/image";
+import { Grid, GridItem, Text } from "@chakra-ui/react";
+import styled from "@emotion/styled";
+import StyledCardDescription from "components/StyledCardDescription";
 interface ContentProps {
   data: Array<Card>;
   filters: any;
   nextPage: () => void;
+  className?: string;
 }
 
-const Content = ({ data, filters, nextPage }: ContentProps) => {
+const CardTitle = styled(Text)`
+  font-weight: 700;
+`;
+
+const CardDescrition = styled(StyledCardDescription)`
+  position: absolute;
+  opacity: 0;
+  top: 100%;
+  transition: all 0.5s ease-in;
+  padding: ${(p: any) => p.theme.space[4]};
+  background-color: #00000099;
+
+  width: 100%;
+  height: 100%;
+`;
+
+const CardItem = styled(GridItem)`
+  position: relative;
+
+  :hover {
+    .cardImage {
+      filter: blur(2px);
+      transition: all 0.5s;
+    }
+
+    .floatingText {
+      top: 0;
+      opacity: 1;
+    }
+  }
+`;
+
+const Content = ({ data, filters, nextPage, className }: ContentProps) => {
   const [hasMore, setHasMore] = useState(true);
 
-  if (!data) return <>a</>;
+  if (!data) return <>no cards</>;
 
   return (
     <>
@@ -22,10 +56,14 @@ const Content = ({ data, filters, nextPage }: ContentProps) => {
         next={nextPage}
         hasMore={hasMore}
         loader={<h3> Loading...</h3>}
-        endMessage={<h4>Nothing more to show</h4>}>
-        <Grid templateColumns="repeat(4, 1fr)" gap={2}>
-          {data.map(card => (
-            <GridItem key={card.id}>
+        endMessage={<h4>Nothing more to show</h4>}
+        className={className}>
+        <Grid
+          templateColumns="repeat(4, 1fr)"
+          gap={2}
+          autoColumns="min-content">
+          {data.map((card, index) => (
+            <CardItem key={card.id + index}>
               <div>
                 <Image
                   src={card.photo}
@@ -35,11 +73,23 @@ const Content = ({ data, filters, nextPage }: ContentProps) => {
                   height={510}
                   placeholder="blur"
                   blurDataURL={card.photo}
+                  className="cardImage"
                 />
-                <strong> {card.id}</strong> {card.name}
+                <CardDescrition
+                  className="floatingText"
+                  fontSize="xs"
+                  align="left"
+                  text={card.description}
+                />
+
+                <CardTitle fontSize="lg" align="center">
+                  {card.id}
+                </CardTitle>
+                <Text fontSize="md" align="center">
+                  {card.name}
+                </Text>
               </div>
-              {card.effect}
-            </GridItem>
+            </CardItem>
           ))}
         </Grid>
       </InfiniteScroll>

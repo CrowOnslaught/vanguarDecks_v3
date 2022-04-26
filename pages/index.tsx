@@ -1,21 +1,14 @@
-import styled from '@emotion/styled';
-import { Text } from '@chakra-ui/react';
-import {
-  AuthAction,
-  useAuthUser,
-  withAuthUser,
-  withAuthUserTokenSSR,
-} from 'next-firebase-auth';
-import useCards from 'services/useCards';
-import InfiniteScroll from 'components/layout/InfiniteScroll';
-import { useEffect, useMemo, useState } from 'react';
-import { Input } from '@chakra-ui/react';
-import Card from 'models/Card';
-import { GetServerSideProps } from 'next/types';
-import { useRouter } from 'next/router';
+import styled from "@emotion/styled";
+import { Text, theme } from "@chakra-ui/react";
+import InfiniteScroll from "components/layout/InfiniteScroll";
+import { useMemo, useState } from "react";
+import { Input } from "@chakra-ui/react";
+import Card from "models/Card";
+import { GetServerSideProps } from "next/types";
+import { useRouter } from "next/router";
 
 const Title = styled(Text)`
-  font-family: 'Lobster';
+  font-family: "Lobster";
   font-size: 40px;
 `;
 
@@ -23,13 +16,18 @@ interface HomeProps {
   cards: Array<Card>;
 }
 
+const HomeInfiniteScroll = styled(InfiniteScroll)`
+  margin-top: ${theme.space[4]};
+  overflow: hidden;
+`;
+
 const Home = ({ cards }: HomeProps) => {
   const router = useRouter();
   const [currentCards, setCurrentCards] = useState<Array<Card>>(cards);
 
   useMemo(() => {
     setCurrentCards(oldArray => [...oldArray, ...currentCards]);
-  }, [currentCards]);
+  }, [cards]);
 
   const nextPage = () => {
     if (!router.query.page) {
@@ -49,13 +47,17 @@ const Home = ({ cards }: HomeProps) => {
     const { value } = e.target;
   };
 
-  if (!currentCards) return <>b</>;
+  if (!currentCards) return <>No cards displayed</>;
 
   return (
     <>
       <Title>Cards</Title>
       <Input onChange={onSearch} placeholder="Search" />
-      <InfiniteScroll data={currentCards} filters={{}} nextPage={nextPage} />
+      <HomeInfiniteScroll
+        data={currentCards}
+        filters={{}}
+        nextPage={nextPage}
+      />
     </>
   );
 };

@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import MainLayout from 'components/layout/MainLayout';
 import { GlobalStyle, theme } from 'styles/theme';
 
+
 GlobalStyle();
 initAuth();
 function MyApp({ Component, pageProps }: AppProps) {

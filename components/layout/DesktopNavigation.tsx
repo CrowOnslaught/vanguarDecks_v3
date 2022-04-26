@@ -1,11 +1,11 @@
-import { Text, Flex, Button, theme } from '@chakra-ui/react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import NavigationButton from 'components/NavigationButton';
-import firebase from 'firebase';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { adaptiveColor } from 'styles/mixins';
+import { Text, Flex, Button, theme } from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import NavigationButton from "components/NavigationButton";
+import firebase from "firebase";
+import { useRouter } from "next/router";
+import React from "react";
+import { adaptiveColor } from "styles/mixins";
 
 interface NavigationItem {
   label: string;
@@ -16,13 +16,14 @@ interface NavigationItem {
 
 const DesktopNavigationContainer = styled(Flex)`
   height: 100vh;
+  width: 200px;
   position: sticky;
   flex-direction: column;
   top: 0;
   padding: ${theme.space[2]};
   gap: ${theme.space[2]};
   ${adaptiveColor(
-    'background-color',
+    "background-color",
     theme.colors.purple[300],
     theme.colors.purple[800]
   )};
@@ -41,28 +42,28 @@ const DesktopNavigation: React.FC = () => {
 
   const navigationItems: NavigationItem[] = [
     {
-      label: 'cards',
-      route: '/',
-      action: async () => await push('/'),
+      label: "cards",
+      route: "/",
+      action: async () => await push("/"),
     },
     {
-      label: 'My Decks',
-      route: '/decks',
-      action: async () => await push('/decks'),
+      label: "My Decks",
+      route: "/decks",
+      action: async () => await push("/decks"),
     },
     {
-      label: 'Browse Decks',
-      route: '/decks/browse',
-      action: async () => await push('/decks/browse'),
+      label: "Browse Decks",
+      route: "/decks/browse",
+      action: async () => await push("/decks/browse"),
     },
     {
-      label: 'about',
-      route: '/about',
-      action: async () => await push('/about'),
+      label: "about",
+      route: "/about",
+      action: async () => await push("/about"),
     },
     {
-      label: 'Log out',
-      upTitle: ' ',
+      label: "Log out",
+      upTitle: " ",
       action: async () => await firebase.auth().signOut(),
     },
   ];
@@ -87,7 +88,7 @@ const DesktopNavigation: React.FC = () => {
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
               onNavigationItemClick(e, item)
             }
-            variant={item.route == route ? 'solid' : 'outline'}
+            variant={item.route == route ? "solid" : "outline"}
             selected={item.route == route}>
             {item.label}
           </NavigationButton>
