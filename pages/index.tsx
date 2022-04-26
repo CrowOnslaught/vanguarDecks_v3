@@ -1,15 +1,16 @@
 import styled from "@emotion/styled";
 import { withIronSessionSsr } from "iron-session/next";
-import { Text, theme } from "@chakra-ui/react";
-import InfiniteScroll from "components/layout/InfiniteScroll";
-import { useMemo, useState } from "react";
-import { Input } from "@chakra-ui/react";
-import Card from "models/Card";
-import { GetServerSideProps } from "next/types";
-import { useRouter } from "next/router";
-import { getCards } from "lib/apiCards/services";
-import { getSession } from "helpers/getSession";
-import { sessionConfig } from "config/sessionConfig";
+import { Text, theme } from '@chakra-ui/react';
+import InfiniteScroll from 'components/layout/InfiniteScroll';
+import { useMemo, useState } from 'react';
+import { Input } from '@chakra-ui/react';
+import Card from 'models/Card';
+import { GetServerSideProps } from 'next/types';
+import { useRouter } from 'next/router';
+import { getCards } from 'services/apiCards';
+import { getSession } from 'helpers/getSession';
+import { sessionConfig } from 'config/sessionConfig';
+
 
 const Title = styled(Text)`
   font-family: "Lobster";

@@ -1,6 +1,6 @@
 import { sessionConfig } from "config/sessionConfig";
 import { withIronSessionApiRoute } from "iron-session/next";
-import { getToken } from "services/apiCards";
+import { registerUser } from "services/apiCards";
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default withIronSessionApiRoute(impersonateRoute, sessionConfig);
@@ -12,13 +12,13 @@ async function impersonateRoute(req:NextApiRequest, res:NextApiResponse) {
   }
 
   try {
-    const token = await getToken({ email: req.body.email, password: req.body.password});
+    const token = await registerUser({ email: req.body.email, password: req.body.password, name: req.body.name});
     req.session.tokens = token;
     await req.session.save();
 
     return res.json({
       success: true,
-      message: "Successfully logged in",
+      message: "Successfully registered",
     });
   } catch (error: any) {
     return res.status(500).json({

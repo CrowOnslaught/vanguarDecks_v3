@@ -10,8 +10,8 @@ const LoginBox = styled(Box)`
   padding: ${theme.space[10]};
 `;
 
-const Login = () => {
-  const { error, success, onLogin, loginWithGoogle } = useLogin();
+const SignUp = () => {
+  const { error, success, onSingUp, loginWithGoogle } = useLogin();
 
   if (success) {
     return <div>
@@ -24,27 +24,19 @@ const Login = () => {
     <Center h="100vh">
       <LoginBox boxShadow="xl" rounded="lg">
         <p data-cy="form-error">{error}</p>
-        <form onSubmit={onLogin} data-cy="form-login">
+        <form onSubmit={onSingUp} data-cy="form-signup">
+          <Input placeholder='Name' id="name"/>
           <Input placeholder='Email' id="email"/>
           <Input placeholder='Password' type="password" id="password" />
           <button type='submit'>send</button>
         </form>
-        <button onClick={loginWithGoogle}>Login with google</button>
+        <button onClick={loginWithGoogle}>Sign up with google</button>
       </LoginBox>
     </Center>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async ({ req, res, query }) => {
-  if (query.tokens) {
-    req.session.tokens = JSON.parse(String(query.tokens));
-    await req.session.save();
-    res.writeHead(302, {
-      Location: '/'
-    });
-    res.end();
-  }
-
+export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async ({ req, res }) => {
   if (req.session.tokens) {
     res.writeHead(307, { Location: '/' })
     res.end()
@@ -55,4 +47,4 @@ export const getServerSideProps: GetServerSideProps = withIronSessionSsr(async (
   }
 }, sessionConfig)
 
-export default Login;
+export default SignUp;

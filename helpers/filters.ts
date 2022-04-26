@@ -1,4 +1,8 @@
-import { APIFilters } from "./types";
+export type APIFilters = {
+  sortBy?: string;
+  limit?: number;
+  page?: number;
+}
 
 const filtersToQuery = (obj:APIFilters) =>  {
     const query = Object.entries(obj).map((value) => {

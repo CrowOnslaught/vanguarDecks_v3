@@ -1,0 +1,6 @@
+{
+  "testFiles": [
+    "auth/signup.spec.js",
+    "auth/login.spec.js"
+  ]
+}

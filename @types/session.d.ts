@@ -2,7 +2,7 @@ export {};
 
 type token = {
   token: string;
-  expires: string;
+  expires: Date;
 }
 
 declare module "iron-session" {
