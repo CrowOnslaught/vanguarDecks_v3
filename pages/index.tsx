@@ -7,7 +7,7 @@ import { Input } from '@chakra-ui/react';
 import Card from 'models/Card';
 import { GetServerSideProps } from 'next/types';
 import { useRouter } from 'next/router';
-import { getCards } from 'lib/apiCards/services';
+import { getCards } from 'services/apiCards';
 import { getSession } from 'helpers/getSession';
 import { sessionConfig } from 'config/sessionConfig';
 

@@ -23,8 +23,8 @@ const Login = () => {
   return (
     <Center h="100vh">
       <LoginBox boxShadow="xl" rounded="lg">
-        <p>{error}</p>
-        <form onSubmit={onLogin}>
+        <p data-cy="form-error">{error}</p>
+        <form onSubmit={onLogin} data-cy="form-login">
           <Input placeholder='Email' id="email"/>
           <Input placeholder='Password' type="password" id="password" />
           <button type='submit'>send</button>

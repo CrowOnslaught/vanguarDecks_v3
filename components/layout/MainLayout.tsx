@@ -27,7 +27,7 @@ const BodyContainer = styled.div`
   padding: 0 ${theme.space[4]};
 `;
 
-const HIDDING_PATHS = ['/login'];
+const HIDDING_PATHS = ['/login', '/signup'];
 const MainLayout = ({ children }: any) => {
   const { pathname } = useRouter();
 

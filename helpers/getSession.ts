@@ -9,8 +9,9 @@ export const getSession = (req:IncomingMessage & { cookies: NextApiRequestCookie
     }
 
     if (!req.session.tokens) {
-        res.writeHead(307, { Location: '/login' })
-        res.end()
+        res.writeHead(307, { Location: '/login' });
+        res.end();
+        return null;
     }
 
     return req.session.tokens;
