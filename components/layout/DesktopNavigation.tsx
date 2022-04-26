@@ -1,12 +1,15 @@
-import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { Text, Flex, Button, theme } from "@chakra-ui/react";
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import IconButton from "components/Common/IconButton";
-import firebase from "firebase";
-import { useRouter } from "next/router";
 import React from "react";
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import { adaptiveColor } from "styles/mixins";
+
+import IconButton from "components/Common/IconButton";
+import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
+import { Text, Flex, Icon, theme } from "@chakra-ui/react";
+
+import Cards from "public/assets/svg/icons/Cards.svg";
+import Decks from "public/assets/svg/icons/Decks.svg";
+import Settings from "public/assets/svg/icons/Settings.svg";
 
 interface NavigationItem {
   label: string;
@@ -68,25 +71,37 @@ const DesktopNavigation: React.FC<NavigationProps> = ({
     {
       label: "cards",
       route: "/",
-      icon: <CloseIcon />,
+      icon: (
+        <Icon boxSize={6}>
+          <Cards />
+        </Icon>
+      ),
       action: async () => await push("/"),
     },
     {
       label: "My Decks",
       route: "/decks",
-      icon: <CloseIcon />,
+      icon: (
+        <Icon boxSize={6}>
+          <Decks />
+        </Icon>
+      ),
       action: async () => await push("/decks"),
     },
     {
       label: "Browse Decks",
       route: "/decks/browse",
-      icon: <SearchIcon />,
+      icon: <SearchIcon boxSize={5} />,
       action: async () => await push("/decks/browse"),
     },
     {
       label: "about",
       route: "/about",
-      icon: <CloseIcon />,
+      icon: (
+        <Icon boxSize={6}>
+          <Settings />
+        </Icon>
+      ),
       action: async () => await push("/about"),
     },
   ];

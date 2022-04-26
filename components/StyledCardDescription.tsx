@@ -71,9 +71,9 @@ const StyledCardDescription = (props: styledDescriptionProps) => {
     if (!props || !props.text) return "";
 
     return props.text
-      .replace(/\[AUTO\]/g, " <span class='tag auto'>[AUTO]</span> ")
-      .replace(/\[ACT\]/g, " <span class='tag act'>[ACT]</span> ")
-      .replace(/\[CONT\]/g, " <span class='tag cont'>[CONT]</span> ")
+      .replace(/\[AUTO\]/g, "<br/><span class='tag auto'>[AUTO]</span> ")
+      .replace(/\[ACT\]/g, "<br/><span class='tag act'>[ACT]</span> ")
+      .replace(/\[CONT\]/g, "<br/><span class='tag cont'>[CONT]</span> ")
 
       .replace(/\[COST\]/g, " <span class='tag cost'>COST</span> ")
       .replace(/\[1\/turn\]/g, "<span class='tag oneTurn'> 1/Turn </span>")
