@@ -1,21 +1,44 @@
-import { Box, theme } from '@chakra-ui/react';
-import styled from '@emotion/styled';
-import { adaptiveColor } from 'styles/mixins';
+import { HamburgerIcon } from "@chakra-ui/icons";
+import styled from "@emotion/styled";
+import { IconButton } from "@chakra-ui/react";
 
-const HeaderBox = styled(Box)`
-  ${adaptiveColor(
-    'background-color',
-    theme.colors.purple[300],
-    theme.colors.purple[800]
-  )}
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  height: 28px;
+  margin: 16px 0;
+  padding: 0 16px;
 `;
 
-const MainHeader = () => {
+interface MainHeaderProps {
+  className?: string;
+  navigationOpen: boolean;
+  toggleNavigation: (e: boolean) => void;
+}
+
+const MainHeader: React.FC<MainHeaderProps> = ({
+  className,
+  navigationOpen,
+  toggleNavigation,
+}) => {
   return (
-    // <HeaderBox p={4} w="100%">
-    //   Vanguar[D]ecks
-    // </HeaderBox>
-    <></>
+    <HeaderContainer>
+      {!navigationOpen ? (
+        <IconButton
+          size="xl"
+          aria-label=""
+          variant="unstyled"
+          icon={<HamburgerIcon />}
+          onClick={() => toggleNavigation(true)}
+        />
+      ) : (
+        <div></div>
+      )}
+      <p>VanguarDecks</p>
+      <p>photo</p>
+    </HeaderContainer>
   );
 };
 

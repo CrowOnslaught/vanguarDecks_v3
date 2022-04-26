@@ -1,16 +1,18 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import styled from "@emotion/styled";
-import { Text } from "@chakra-ui/react";
+import { ResponsiveValue, Text } from "@chakra-ui/react";
 
-interface styledDescriptionProps extends Record<string, string | undefined> {
+interface styledDescriptionProps extends Record<string, any> {
   text: string;
+  align: ResponsiveValue<any> | undefined;
   className?: string;
   fontSize?: string;
-  align?: string;
 }
 
 const StyledText = styled(Text)`
   overflow: scroll;
+  overflow-y: auto;
+  overflow-x: hidden;
 
   .icon {
     width: 20px !important;
@@ -69,18 +71,18 @@ const StyledCardDescription = (props: styledDescriptionProps) => {
     if (!props || !props.text) return "";
 
     return props.text
-      .replace(/\[AUTO\]/g, "<span class='tag auto'>[AUTO]</span>")
-      .replace(/\[ACT\]/g, "<span class='tag act'>[ACT]</span>")
-      .replace(/\[CONT\]/g, "<span class='tag cont'>[CONT]</span>")
+      .replace(/\[AUTO\]/g, " <span class='tag auto'>[AUTO]</span> ")
+      .replace(/\[ACT\]/g, " <span class='tag act'>[ACT]</span> ")
+      .replace(/\[CONT\]/g, " <span class='tag cont'>[CONT]</span> ")
 
-      .replace(/\[COST\]/g, "<span class='tag cost'>COST</span>")
-      .replace(/1\/Turn/g, "<span class='tag oneTurn'>1/Turn</span>")
+      .replace(/\[COST\]/g, " <span class='tag cost'>COST</span> ")
+      .replace(/\[1\/turn\]/g, "<span class='tag oneTurn'> 1/Turn </span>")
 
-      .replace(/\(VC\)/g, "<span class='tag circle'>(VC)</span>")
-      .replace(/(VC\/RC)/g, "<span class='tag circle'>(VC/RC)</span>")
-      .replace(/\(RC\)/g, "<span class='tag circle'>(RC)</span>")
-      .replace(/\(GC\)/g, "<span class='tag circle'>(GC)</span>")
-      .replace(/\(RC\/GC\)/g, "<span class='tag circle'>(RC/GC)</span>")
+      .replace(/\(VC\)/g, "<span class='tag circle'> (VC) </span>")
+      .replace(/\(VC\/RC\)/g, "<span class='tag circle'> (VC/RC) </span>")
+      .replace(/\(RC\)/g, "<span class='tag circle'> (RC) </span>")
+      .replace(/\(GC\)/g, "<span class='tag circle'> (GC) </span>")
+      .replace(/\(RC\/GC\)/g, "<span class='tag circle'> (RC/GC) </span>")
 
       .replace(
         /\[Power\]/g,

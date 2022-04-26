@@ -1,28 +1,35 @@
-import { Text, Flex, Button, theme } from '@chakra-ui/react';
-import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import NavigationButton from 'components/NavigationButton';
-import firebase from 'firebase';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { adaptiveColor } from 'styles/mixins';
+import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
+import { Text, Flex, Button, theme } from "@chakra-ui/react";
+import { css } from "@emotion/react";
+import styled from "@emotion/styled";
+import IconButton from "components/Common/IconButton";
+import firebase from "firebase";
+import { useRouter } from "next/router";
+import React from "react";
+import { adaptiveColor } from "styles/mixins";
 
 interface NavigationItem {
   label: string;
   action(): Promise<any>;
   route?: string;
   upTitle?: string;
+  icon?: JSX.Element;
 }
 
-const DesktopNavigationContainer = styled(Flex)`
+const DesktopNavigationContainer = styled(Flex)<{ open: boolean }>`
   height: 100vh;
+  width: 250px;
   position: sticky;
   flex-direction: column;
   top: 0;
-  padding: ${theme.space[2]};
+  margin-left: ${(p: any) => (p.open ? 0 : -250)}px;
+
+  padding: ${theme.space[6]};
+  transition: all 0.5s;
+
   gap: ${theme.space[2]};
   ${adaptiveColor(
-    'background-color',
+    "background-color",
     theme.colors.purple[300],
     theme.colors.purple[800]
   )};
@@ -36,34 +43,51 @@ const DesktopNavigationUpTitle = styled(Text)`
   }
 `;
 
-const DesktopNavigation: React.FC = () => {
+const CloseIconButton = styled(IconButton)`
+  margin-bottom: 64px;
+`;
+
+const DesktopNavigationButton = styled(IconButton)<{ selected: boolean }>`
+  background-color: ${(p: any) => p.selected && p.theme.colors.gray[100]};
+  color: ${(p: any) =>
+    p.selected ? p.theme.colors.purple[700] : p.theme.colors.gray[100]};
+`;
+
+interface NavigationProps {
+  open: boolean;
+  toggleNavigation: (e: boolean) => void;
+}
+
+const DesktopNavigation: React.FC<NavigationProps> = ({
+  open,
+  toggleNavigation,
+}) => {
   const { push, route } = useRouter();
 
   const navigationItems: NavigationItem[] = [
     {
-      label: 'cards',
-      route: '/',
-      action: async () => await push('/'),
+      label: "cards",
+      route: "/",
+      icon: <CloseIcon />,
+      action: async () => await push("/"),
     },
     {
-      label: 'My Decks',
-      route: '/decks',
-      action: async () => await push('/decks'),
+      label: "My Decks",
+      route: "/decks",
+      icon: <CloseIcon />,
+      action: async () => await push("/decks"),
     },
     {
-      label: 'Browse Decks',
-      route: '/decks/browse',
-      action: async () => await push('/decks/browse'),
+      label: "Browse Decks",
+      route: "/decks/browse",
+      icon: <SearchIcon />,
+      action: async () => await push("/decks/browse"),
     },
     {
-      label: 'about',
-      route: '/about',
-      action: async () => await push('/about'),
-    },
-    {
-      label: 'Log out',
-      upTitle: ' ',
-      action: async () => await firebase.auth().signOut(),
+      label: "about",
+      route: "/about",
+      icon: <CloseIcon />,
+      action: async () => await push("/about"),
     },
   ];
 
@@ -76,21 +100,24 @@ const DesktopNavigation: React.FC = () => {
   };
 
   return (
-    <DesktopNavigationContainer>
+    <DesktopNavigationContainer open={open}>
+      <CloseIconButton
+        onClick={() => toggleNavigation(false)}
+        icon={<CloseIcon />}
+      />
       {navigationItems.map((item, key) => (
         <React.Fragment key={key}>
           {item.upTitle && (
             <DesktopNavigationUpTitle>{item.upTitle}</DesktopNavigationUpTitle>
           )}
-
-          <NavigationButton
+          <DesktopNavigationButton
             onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) =>
               onNavigationItemClick(e, item)
             }
-            variant={item.route == route ? 'solid' : 'outline'}
-            selected={item.route == route}>
-            {item.label}
-          </NavigationButton>
+            label={item.label}
+            icon={item.icon}
+            selected={item.route == route}
+          />
         </React.Fragment>
       ))}
     </DesktopNavigationContainer>

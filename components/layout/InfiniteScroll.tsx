@@ -22,7 +22,7 @@ const CardDescrition = styled(StyledCardDescription)`
   top: 100%;
   transition: all 0.5s ease-in;
   padding: ${(p: any) => p.theme.space[4]};
-  background-color: #0000007d;
+  background-color: #00000099;
 
   width: 100%;
   height: 100%;
@@ -44,6 +44,10 @@ const CardItem = styled(GridItem)`
   }
 `;
 
+const InfiniteScrollGrid = styled(Grid)`
+  overflow: hidden;
+`;
+
 const Content = ({ data, filters, nextPage, className }: ContentProps) => {
   const [hasMore, setHasMore] = useState(true);
 
@@ -53,37 +57,36 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
     <>
       <InfiniteScroll
         dataLength={data.length}
-        next={nextPage}
+        next={() => {}}
         hasMore={hasMore}
         loader={<h3> Loading...</h3>}
         endMessage={<h4>Nothing more to show</h4>}
         className={className}>
-        <Grid
+        <InfiniteScrollGrid
           templateColumns="repeat(4, 1fr)"
           gap={2}
           autoColumns="min-content">
           {data.map((card, index) => (
-            <CardItem key={card.id + index}>
+            <CardItem key={card.card_id + index}>
               <div>
                 <Image
-                  src={card.image}
+                  src={card.originalPhoto}
                   alt={card.name}
                   layout="responsive"
                   width={350}
                   height={510}
                   placeholder="blur"
-                  blurDataURL={card.image}
+                  blurDataURL={card.originalPhoto}
                   className="cardImage"
                 />
                 <CardDescrition
                   className="floatingText"
-                  fontSize="md"
-                  align="justify"
+                  fontSize="xs"
+                  align="left"
                   text={card.description}
                 />
-
                 <CardTitle fontSize="lg" align="center">
-                  {card.id}
+                  {card.card_id}
                 </CardTitle>
                 <Text fontSize="md" align="center">
                   {card.name}
@@ -91,7 +94,7 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
               </div>
             </CardItem>
           ))}
-        </Grid>
+        </InfiniteScrollGrid>
       </InfiniteScroll>
     </>
   );
