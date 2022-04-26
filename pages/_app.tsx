@@ -1,49 +1,21 @@
-import "styles/globals.css";
-import type { AppProps } from "next/app";
-import initAuth from "helpers/initAuth";
-import { ChakraProvider, theme } from "@chakra-ui/react";
-import MainLayout from "components/layout/MainLayout";
-import { injectGlobal } from "@emotion/css";
-import emotionNormalize from "emotion-normalize";
-import { adaptiveColor } from "styles/mixins";
-import { jsx, ThemeProvider } from "@emotion/react";
-const GlobalStyle = injectGlobal`
-  ${emotionNormalize};
-  
-  html, body {
-    width: 100%;
-    height: 100%;
-    ${adaptiveColor(
-      "background-color",
-      theme.colors.white,
-      theme.colors.black
-    )};
-    ${adaptiveColor("color", theme.colors.black, theme.colors.white)};
-  }
+import 'styles/globals.css';
+import type { AppProps } from 'next/app';
+import initAuth from 'helpers/initAuth';
+import { ChakraProvider } from '@chakra-ui/react';
+import MainLayout from 'components/layout/MainLayout';
+import { GlobalStyle, theme } from 'styles/theme';
 
-  #__next {
-    width: 100%;
-    height: 100%;
-  }
 
-  @font-face {
-    font-family: 'Lobster';
-    src: url('/fonts/Lobster-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-`;
-
+GlobalStyle();
 initAuth();
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
-    <ThemeProvider theme={theme}>
-      <ChakraProvider>
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
-      </ChakraProvider>
-    </ThemeProvider>
+    <ChakraProvider theme={theme}>
+      <MainLayout>
+        <Component {...pageProps} />
+      </MainLayout>
+    </ChakraProvider>
   );
 }
 
