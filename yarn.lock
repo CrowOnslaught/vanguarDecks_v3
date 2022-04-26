@@ -3659,6 +3659,18 @@ deglob@^2.1.0:
     run-parallel "^1.1.2"
     uniq "^1.0.1"
 
+deglob@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/deglob/-/deglob-3.1.0.tgz#1868193193d3432a5326e8fb2052b439a43a454e"
+  integrity sha512-al10l5QAYaM/PeuXkAr1Y9AQz0LCtWsnJG23pIgh44hDxHFOj36l6qvhfjnIWBYwZOqM1fXUFV9tkjL7JPdGvw==
+  dependencies:
+    find-root "^1.0.0"
+    glob "^7.0.5"
+    ignore "^5.0.0"
+    pkg-config "^1.1.0"
+    run-parallel "^1.1.2"
+    uniq "^1.0.1"
+
 delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
@@ -4923,7 +4935,7 @@ ignore@^4.0.2:
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha512-cyFDKrqc/YdcWFniJhzI42+AzS+gNwmUzOSFcRCQYwySuBBBy/KjuxWLZ/FHEH6Moq1NizMOBWyTcv8O4OZIMg==
 
-ignore@^5.1.8, ignore@^5.2.0:
+ignore@^5.0.0, ignore@^5.1.8, ignore@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.2.0.tgz#6d3bac8fa7fe0d45d9f9be7bac2fc279577e345a"
   integrity sha512-CmxgYGiEPCLhfLnpPp1MoRmifwEIOgjcHXxOBjv7mY96c+eWScsOP9c112ZyLdWHi0FxHjI+4uVhKYp/gcdRmQ==
@@ -6673,7 +6685,17 @@ stable@^0.1.8:
   resolved "https://registry.yarnpkg.com/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
   integrity sha512-ji9qxRnOVfcuLDySj9qzhGSEFVobyt1kIOSkj1qZzYLzq7Tos/oUUWvotUPQLlrsidqsK6tBH89Bc9kL5zHA6w==
 
-standard-engine@^9.0.0, standard-engine@~9.0.0:
+standard-engine@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/standard-engine/-/standard-engine-10.0.0.tgz#6859075130f0c677f6a9ee05869f3e8d18bb45ea"
+  integrity sha512-91BjmzIRZbFmyOY73R6vaDd/7nw5qDWsfpJW5/N+BCXFgmvreyfrRg7oBSu4ihL0gFGXfnwCImJm6j+sZDQQyw==
+  dependencies:
+    deglob "^3.0.0"
+    get-stdin "^6.0.0"
+    minimist "^1.1.0"
+    pkg-conf "^2.0.0"
+
+standard-engine@~9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/standard-engine/-/standard-engine-9.0.0.tgz#d3a3d74c4c1b91f51a1e66362465261ca7610316"
   integrity sha512-ZfNfCWZ2Xq67VNvKMPiVMKHnMdvxYzvZkf1AH8/cw2NLDBm5LRsxMqvEJpsjLI/dUosZ3Z1d6JlHDp5rAvvk2w==
@@ -6698,13 +6720,13 @@ standard@^12.0.1:
     eslint-plugin-standard "~4.0.0"
     standard-engine "~9.0.0"
 
-standardx@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/standardx/-/standardx-3.0.0.tgz#98f3e59df3ed51ec2a86a67108e6a00580e03dce"
-  integrity sha512-Ks1eQAm/wyejwJHvP7/pVMgbscwdgsXQTaJ5K0j9PCEEhU7KQpA8/CgMs+pAdIsblZNMRdHNXtRcmla/Rrg0wg==
+standardx@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/standardx/-/standardx-3.0.1.tgz#342b2515f63d62a12e9574d7f044ae0aafd1dbf1"
+  integrity sha512-HU4c9V/F6TAKAokrnClUIzuETYyVpO3iYs77stT29YRJu8HR0CQ7ypM2sgW1Qmn3+VPB6/eSy4aPMt8NYPtl3A==
   dependencies:
     standard "^12.0.1"
-    standard-engine "^9.0.0"
+    standard-engine "^10.0.0"
 
 stream-events@^1.0.4, stream-events@^1.0.5:
   version "1.0.5"
