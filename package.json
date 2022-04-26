@@ -21,7 +21,7 @@
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "emotion-normalize": "^11.0.1",
-    "firebase": "8.9.1",
+    "firebase": "9.6.11",
     "firebase-admin": "^10.0.2",
     "framer-motion": "^6",
     "iron-session": "^6.1.2",
