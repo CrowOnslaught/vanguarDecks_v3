@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 
-import AnimatedButton from "components/Common/AnimatedButton";
+import AnimatedButton from "components/common/AnimatedButton";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
 import {
   Text,

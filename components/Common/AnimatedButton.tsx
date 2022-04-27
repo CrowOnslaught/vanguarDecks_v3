@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Text, theme } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 

@@ -1,18 +1,21 @@
 import { sessionConfig } from "config/sessionConfig";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { getToken } from "services/apiCards";
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default withIronSessionApiRoute(impersonateRoute, sessionConfig);
 
-async function impersonateRoute(req:NextApiRequest, res:NextApiResponse) {
+async function impersonateRoute(req: NextApiRequest, res: NextApiResponse) {
   if (!req.body) {
     res.status(400).send("No body");
     return;
   }
 
   try {
-    const token = await getToken({ email: req.body.email, password: req.body.password});
+    const token = await getToken({
+      email: req.body.email,
+      password: req.body.password,
+    });
     req.session.tokens = token;
     await req.session.save();
 
@@ -23,7 +26,7 @@ async function impersonateRoute(req:NextApiRequest, res:NextApiResponse) {
   } catch (error: any) {
     return res.status(500).json({
       error: true,
-      message: error.message
+      message: error.message,
     });
   }
 }

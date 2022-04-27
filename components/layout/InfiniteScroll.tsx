@@ -1,9 +1,8 @@
 import Card from "models/Card";
 import React, { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Grid, GridItem, Text } from "@chakra-ui/react";
+import { Grid } from "@chakra-ui/react";
 import styled from "@emotion/styled";
-import StyledCardDescription from "components/StyledCardDescription";
 import CardDisplay from "components/CardDisplay";
 interface ContentProps {
   data: Array<Card>;
@@ -31,7 +30,7 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
         endMessage={<h4>Nothing more to show</h4>}
         className={className}>
         <InfiniteScrollGrid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns="repeat( auto-fit, minmax(150px, 1fr) )"
           gap={2}
           autoColumns="min-content">
           {data.map((card, index) => (

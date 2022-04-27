@@ -44,6 +44,10 @@ export const GlobalStyle = () => injectGlobal`
     height: 100%;
   }
 
+  button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
   @font-face {
     font-family: 'Lobster';
