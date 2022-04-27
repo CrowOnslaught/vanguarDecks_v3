@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import { adaptiveColor } from "styles/mixins";
 
-import IconButton from "components/Common/IconButton";
+import AnimatedButton from "components/Common/AnimatedButton";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { Text, Flex, Icon, theme } from "@chakra-ui/react";
+import {
+  Text,
+  Flex,
+  Icon,
+  theme,
+  Button,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 import Cards from "public/assets/svg/icons/Cards.svg";
 import Decks from "public/assets/svg/icons/Decks.svg";
@@ -25,17 +31,13 @@ const DesktopNavigationContainer = styled(Flex)<{ open: boolean }>`
   position: sticky;
   flex-direction: column;
   top: 0;
-  margin-left: ${(p: any) => (p.open ? 0 : -250)}px;
+  margin-left: ${p => (p.open ? 0 : -250)}px;
 
-  padding: ${theme.space[6]};
+  padding: ${p => p.theme.spaces._300};
   transition: all 0.5s;
 
-  gap: ${theme.space[2]};
-  ${adaptiveColor(
-    "background-color",
-    theme.colors.purple[300],
-    theme.colors.purple[800]
-  )};
+  gap: ${p => p.theme.spaces._100};
+  background-color: ${p => p.theme.colors.purple[600]};
 `;
 
 const DesktopNavigationUpTitle = styled(Text)`
@@ -46,14 +48,17 @@ const DesktopNavigationUpTitle = styled(Text)`
   }
 `;
 
-const CloseIconButton = styled(IconButton)`
-  margin-bottom: 64px;
+const CloseAnimatedButton = styled(Button)`
+  margin-bottom: ${p => p.theme.spaces._900};
+  font-size: ${p => p.theme.sizes._300};
+  text-align: left;
+  width: fit-content;
 `;
 
-const DesktopNavigationButton = styled(IconButton)<{ selected: boolean }>`
+const DesktopNavigationButton = styled(AnimatedButton)<{ selected: boolean }>`
   background-color: ${(p: any) => p.selected && p.theme.colors.gray[100]};
   color: ${(p: any) =>
-    p.selected ? p.theme.colors.purple[700] : p.theme.colors.gray[100]};
+    p.selected ? p.theme.colors.purple[600] : p.theme.colors.gray[100]};
 `;
 
 interface NavigationProps {
@@ -116,10 +121,11 @@ const DesktopNavigation: React.FC<NavigationProps> = ({
 
   return (
     <DesktopNavigationContainer open={open}>
-      <CloseIconButton
-        onClick={() => toggleNavigation(false)}
-        icon={<CloseIcon />}
-      />
+      <CloseAnimatedButton
+        variant="unstyled"
+        onClick={() => toggleNavigation(false)}>
+        <CloseIcon color="gray.100" boxSize={6} />
+      </CloseAnimatedButton>
       {navigationItems.map((item, key) => (
         <React.Fragment key={key}>
           {item.upTitle && (

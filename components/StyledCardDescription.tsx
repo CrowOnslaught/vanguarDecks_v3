@@ -13,20 +13,21 @@ const StyledText = styled(Text)`
   overflow: scroll;
   overflow-y: auto;
   overflow-x: hidden;
+  color: ${p => p.theme.colors.gray[100]};
 
   .icon {
-    width: 20px !important;
-    height: 20px !important;
+    width: ${p => p.theme.sizes._700} !important;
+    height: ${p => p.theme.sizes._700} !important;
     display: inline;
   }
 
   .icon-large {
-    width: 70px !important;
-    height: 24px !important;
+    width: ${p => p.theme.spaces._900} !important;
+    height: ${p => p.theme.spaces._300} !important;
   }
 
   .card {
-    margin-bottom: -4px;
+    margin-bottom: -${p => p.theme.spaces._050};
   }
 
   .red {

@@ -1,19 +1,28 @@
-import { Button, theme } from "@chakra-ui/react";
-import { css } from "@emotion/react";
+import React from "react";
+import { Button, Text, theme } from "@chakra-ui/react";
+import { CloseIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
-import { adaptiveColor } from "styles/mixins";
+import { css } from "@emotion/react";
 
-const DesktopNavigationButton = styled(Button)<{ selected: boolean }>`
-  transition: color 1s;
+interface AnimatedButtonProps {
+  icon: JSX.Element;
+  onClick: (e?: any) => any;
+  className?: string;
+  label?: string;
+  selected?: boolean;
+}
+
+const ButtonContainer = styled(Button)<{ label: boolean; selected: boolean }>`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
   overflow: hidden;
-  border-radius: 3px;
-  border-width: 2px;
-  ${adaptiveColor(
-    "border-color",
-    theme.colors.purple[500],
-    theme.colors.purple[300]
-  )};
-  ${adaptiveColor("color", theme.colors.purple[500], theme.colors.purple[300])};
+
+  height: fit-content;
+  width: ${p => (p.label ? "150px" : "fit-content")};
+
+  gap: ${p => p.theme.spaces._100};
+  padding: ${p => p.theme.spaces._200} ${p => p.theme.spaces._100};
 
   ::before {
     content: "";
@@ -22,11 +31,7 @@ const DesktopNavigationButton = styled(Button)<{ selected: boolean }>`
     left: -50px;
     width: 0;
     height: 100%;
-    ${adaptiveColor(
-      "background-color",
-      theme.colors.purple[500],
-      theme.colors.purple[300]
-    )};
+    background-color: ${p => p.theme.colors.purple[300]};
     transform: skewX(35deg);
     z-index: -1;
     transition: width 1s;
@@ -37,59 +42,36 @@ const DesktopNavigationButton = styled(Button)<{ selected: boolean }>`
       !p.selected &&
       css`
         background: transparent;
-        ${adaptiveColor(
-          "color",
-          theme.colors.purple[300],
-          theme.colors.purple[800]
-        )};
-
+        color: ${theme.colors.purple[600]};
         ::before {
           width: 150%;
         }
       `}
   }
-
-  ${(p: any) =>
-    p.selected &&
-    css`
-      font-weight: 700;
-      ${adaptiveColor(
-        "color",
-        theme.colors.purple[300],
-        theme.colors.purple[800]
-      )};
-      ${adaptiveColor(
-        "background-color",
-        theme.colors.purple[800],
-        theme.colors.purple[300]
-      )};
-
-      :hover {
-        ${adaptiveColor(
-          "color",
-          theme.colors.purple[300],
-          theme.colors.purple[800]
-        )};
-        ${adaptiveColor(
-          "background-color",
-          theme.colors.purple[800],
-          theme.colors.purple[300]
-        )};
-      }
-    `}
 `;
 
-interface NavigationButtonProps extends Record<string, any> {
-  selected: boolean;
-  className?: string;
-}
+const AnimatedButtonLabel = styled(Text)`
+  text-transform: capitalize;
+`;
 
-const AnimatedButton = (props: NavigationButtonProps) => {
+const Content: React.FC<AnimatedButtonProps> = ({
+  icon,
+  label,
+  onClick,
+  className,
+  selected,
+}) => {
   return (
-    <DesktopNavigationButton {...props} colorScheme="purple">
-      {props.children}
-    </DesktopNavigationButton>
+    <ButtonContainer
+      label={label}
+      selected={selected}
+      className={className}
+      variant="unstyled"
+      onClick={() => onClick(false)}>
+      {icon}
+      <AnimatedButtonLabel>{label}</AnimatedButtonLabel>
+    </ButtonContainer>
   );
 };
 
-export default AnimatedButton;
+export default Content;
