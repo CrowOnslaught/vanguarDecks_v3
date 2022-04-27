@@ -94,8 +94,6 @@ interface dataConfigProps {
 }
 
 const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
-  const descRef = useRef(null);
-
   const DataConfig: dataConfigProps[] = [
     {
       text: card.power || "-",
@@ -109,23 +107,11 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
       text: card.grade,
       icon: <Grade color={theme.colors.gray[100]} />,
     },
-    {
-      text: card.type,
-      icon: <Type />,
-    },
   ];
-
-  useEffect(() => {
-    if (!descRef) return;
-
-    descRef.current?.addEventListener("mouseover", e => {
-      e.stopPropagation();
-    });
-  }, [descRef]);
 
   return (
     <CardItem className={className}>
-      <ImageDescriptionWrapper ref={descRef}>
+      <ImageDescriptionWrapper>
         <Image
           src={card.originalPhoto}
           alt={card.name}

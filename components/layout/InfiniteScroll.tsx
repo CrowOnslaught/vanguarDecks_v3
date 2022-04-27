@@ -30,7 +30,7 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
         endMessage={<h4>Nothing more to show</h4>}
         className={className}>
         <InfiniteScrollGrid
-          templateColumns="repeat(4, 1fr)"
+          templateColumns="repeat( auto-fit, minmax(150px, 1fr) )"
           gap={2}
           autoColumns="min-content">
           {data.map((card, index) => (

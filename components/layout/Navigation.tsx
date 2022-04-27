@@ -3,8 +3,8 @@ import Link from "next/link";
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { CloseIcon } from "@chakra-ui/icons";
-import { Text, Flex, theme, Box } from "@chakra-ui/react";
-import IconButton from "components/common/IconButton";
+import { Text, Flex, theme, Box, Button } from "@chakra-ui/react";
+import AnimatedButton from "components/common/AnimatedButton";
 import { menuConfig } from "config/menuConfig";
 import {
   VisibilityDesktop,
@@ -33,11 +33,14 @@ const DesktopNavigationUpTitle = styled(Text)`
   }
 `;
 
-const CloseIconButton = styled(IconButton)`
-  margin-bottom: 64px;
+const CloseButton = styled(Button)`
+  margin-bottom: ${p => p.theme.spaces._900};
+  font-size: ${p => p.theme.sizes._300};
+  text-align: left;
+  width: fit-content;
 `;
 
-const DesktopNavigationButton = styled(IconButton)<{ selected: boolean }>`
+const DesktopNavigationButton = styled(AnimatedButton)<{ selected: boolean }>`
   background-color: ${(p: any) => p.selected && p.theme.colors.gray[100]};
   color: ${(p: any) =>
     p.selected ? p.theme.colors.purple[700] : p.theme.colors.gray[100]};
@@ -61,55 +64,54 @@ const Navigation: React.FC<NavigationProps> = ({ open, toggleNavigation }) => {
           bottom="0"
           w="100vw"
           zIndex="10">
-          <Box>
-            <Flex justify="center" align="center">
-              {menuConfig?.map((item, key) => (
-                <Box
-                  mx="4"
-                  py="2"
-                  borderTop={item.route === route ? "3px solid white" : "none"}
-                  key={key}>
-                  <Link href={item.route}>
-                    <a>
-                      <Flex
-                        direction="column"
-                        align="center"
-                        justify="center"
-                        h="100%">
-                        <Box
-                          borderRadius="20%"
-                          h="1.5em"
-                          w="2.5em"
-                          color={item.route === route ? "white" : "purple.300"}
-                          marginBottom="0.3em">
-                          <Flex
-                            direction="column"
-                            align="center"
-                            justify="center"
-                            h="100%">
-                            {item.icon}
-                          </Flex>
-                        </Box>
-                        <Text
-                          fontSize="10px"
-                          color={item.route === route ? "white" : "purple.300"}>
-                          {item.label}
-                        </Text>
-                      </Flex>
-                    </a>
-                  </Link>
-                </Box>
-              ))}
-            </Flex>
-          </Box>
+          <Flex justify="center" align="center">
+            {menuConfig?.map((item, key) => (
+              <Box
+                mx="4"
+                py="2"
+                borderTop={item.route === route ? "3px solid white" : "none"}
+                key={key}>
+                <Link href={item.route}>
+                  <a>
+                    <Flex
+                      direction="column"
+                      align="center"
+                      justify="center"
+                      h="100%">
+                      <Box
+                        borderRadius="20%"
+                        h="1.5em"
+                        w="2.5em"
+                        color={item.route === route ? "white" : "purple.300"}
+                        marginBottom="0.3em">
+                        <Flex
+                          direction="column"
+                          align="center"
+                          justify="center"
+                          h="100%">
+                          {item.icon}
+                        </Flex>
+                      </Box>
+                      <Text
+                        fontSize="10px"
+                        color={item.route === route ? "white" : "purple.300"}>
+                        {item.label}
+                      </Text>
+                    </Flex>
+                  </a>
+                </Link>
+              </Box>
+            ))}
+          </Flex>
         </Box>
       </VisibilityMobile>
       <VisibilityDesktop>
         <DesktopNavigationContainer open={open} bg="purple.600">
-          <CloseIconButton
-            onClick={() => toggleNavigation(false)}
-            icon={<CloseIcon boxSize="1.5em" />}
-          />
+          <CloseButton
+            variant="unstyled"
+            onClick={() => toggleNavigation(false)}>
+            <CloseIcon color="gray.100" boxSize={6} />
+          </CloseButton>
           {menuConfig.map((item, key) => (
             <React.Fragment key={key}>
               {item.upTitle && (
