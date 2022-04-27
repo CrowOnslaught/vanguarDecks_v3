@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { withIronSessionSsr } from "iron-session/next";
 import { Heading, theme } from "@chakra-ui/react";
 import InfiniteScroll from "components/layout/InfiniteScroll";
 import { useMemo, useState } from "react";
@@ -8,8 +7,7 @@ import Card from "models/Card";
 import { GetServerSideProps } from "next/types";
 import { useRouter } from "next/router";
 import { getCards } from "services/apiCards";
-import { getSession } from "helpers/getSession";
-import { sessionConfig } from "config/sessionConfig";
+import { withAuth } from "lib/withAuth";
 
 interface HomeProps {
   cards: Array<Card>;
@@ -61,18 +59,25 @@ const Home = ({ cards }: HomeProps) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
-  async ({ req, res, resolvedUrl }) => {
-    const tokens = getSession(req, res, resolvedUrl);
-    const cards = await getCards(tokens?.access.token || "");
-
-    return {
-      props: {
-        cards: cards.results,
-      },
-    };
-  },
-  sessionConfig
+export const getServerSideProps: GetServerSideProps = withAuth(
+  async ({ req }, session) => {
+    try {
+      const cards = await getCards(session.access.token);
+      return {
+        props: {
+          cards: cards.results,
+        },
+      };
+    } catch (err) {
+      await req.session.destroy();
+      return await {
+        redirect: {
+          destination: "/",
+          statusCode: 302,
+        },
+      };
+    }
+  }
 );
 
 export default Home;

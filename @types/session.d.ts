@@ -2,14 +2,14 @@ export {};
 
 type token = {
   token: string;
-  expires: Date;
-}
+  expires: string;
+};
 
 declare module "iron-session" {
-    interface IronSessionData {
-      tokens?: {
-        access: token;
-        refresh: token;
-      };
-    }
+  interface IronSessionData {
+    tokens?: {
+      access: token;
+      refresh: token;
+    };
   }
+}

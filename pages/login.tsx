@@ -1,10 +1,9 @@
 import { Box, Center, theme } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import { Input } from "@chakra-ui/react";
-import { withIronSessionSsr } from "iron-session/next";
 import { GetServerSideProps } from "next/types";
 import { useLogin } from "hooks/useLogin";
-import { sessionConfig } from "config/sessionConfig";
+import { withAuth } from "lib/withAuth";
 
 const LoginBox = styled(Box)`
   padding: ${theme.space[10]};
@@ -36,27 +35,10 @@ const Login = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withIronSessionSsr(
-  async ({ req, res, query }) => {
-    if (query.tokens) {
-      req.session.tokens = JSON.parse(String(query.tokens));
-      await req.session.save();
-      res.writeHead(302, {
-        Location: "/",
-      });
-      res.end();
-    }
-
-    if (req.session.tokens) {
-      res.writeHead(307, { Location: "/" });
-      res.end();
-    }
-
-    return {
-      props: {},
-    };
-  },
-  sessionConfig
-);
+export const getServerSideProps: GetServerSideProps = withAuth(async () => {
+  return {
+    props: {},
+  };
+});
 
 export default Login;
