@@ -1,8 +1,8 @@
-import fetcher from 'helpers/fetcher';
-import { objectToQueryString } from 'helpers/utils';
-import Card from 'models/Card';
-import { useEffect } from 'react';
-import useSWR from 'swr';
+import fetcher from "helpers/fetcher";
+import { objectToQueryString } from "helpers/utils";
+import Card from "models/Card";
+import { useEffect } from "react";
+import useSWR from "swr";
 
 interface responseProps {
   data: Array<Card>;
@@ -14,7 +14,7 @@ interface responseProps {
 
 export default function useCards(params?: Record<string, any>) {
   let qs = params ? { ...params } : {};
-  qs.page = qs.page || '1';
+  qs.page = qs.page || "1";
 
   const queryString = objectToQueryString(qs);
   const {
@@ -26,7 +26,7 @@ export default function useCards(params?: Record<string, any>) {
 
   const updateCards = async (params?: Record<string, any>) => {
     let qs = params ? { ...params } : {};
-    qs.page = qs.page || '1';
+    qs.page = qs.page || "1";
 
     const queryString = objectToQueryString(qs);
 
@@ -35,7 +35,7 @@ export default function useCards(params?: Record<string, any>) {
   };
 
   useEffect(() => {
-    console.log('cards', cards, 'cards');
+    console.log("cards", cards, "cards");
   }, [cards]);
 
   //   if (isValidating) return { cards: [], updateCards };

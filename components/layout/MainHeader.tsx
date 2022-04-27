@@ -1,9 +1,12 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { Avatar } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { VisibilityDesktop } from "components/utils/Visibility";
+import { getCookie, checkCookies } from "cookies-next";
+import User from "models/User";
+import { useEffect, useState } from "react";
 
 interface MainHeaderProps {
   className?: string;
@@ -17,10 +20,18 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   toggleNavigation,
   logged = true,
 }) => {
+  const [profile, setProfile] = useState<User>();
   const titleColor = useColorModeValue("purple.600", "white");
 
+  useEffect(() => {
+    if (checkCookies("profile")) {
+      const profileCookie = getCookie("profile") as string;
+      setProfile(JSON.parse(profileCookie));
+    }
+  }, []);
+
   return (
-    <Flex align="center" justify={logged ? "space-between" : "center"} p="4">
+    <Flex align="center" justify="space-between" p="4">
       {logged && (
         <VisibilityDesktop>
           <IconButton
@@ -37,8 +48,15 @@ const MainHeader: React.FC<MainHeaderProps> = ({
         VanguarDecks
       </Heading>
 
-      {logged && (
-        <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+      {logged ? (
+        <Avatar
+          name={profile?.name}
+          src={profile?.photo || "https://bit.ly/dan-abramov"}
+        />
+      ) : (
+        <Box>
+          <Button bg="purple.600">Login</Button>
+        </Box>
       )}
     </Flex>
   );

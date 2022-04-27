@@ -11,5 +11,6 @@ declare module "iron-session" {
       access: token;
       refresh: token;
     };
+    profile?: any;
   }
 }

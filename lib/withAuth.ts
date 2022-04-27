@@ -7,6 +7,8 @@ import {
 import { sessionConfig } from "config/sessionConfig";
 import { publicPaths } from "config/publicPaths";
 import { changeTimeZone } from "helpers/changeTimeZone";
+import { getUserInfo } from "services/apiCards";
+import { setCookies } from "cookies-next";
 
 export function withSessionRoute(handler: NextApiHandler) {
   return withIronSessionApiRoute(handler, sessionConfig);
@@ -17,18 +19,27 @@ function withSessionSsr<
 >(
   handler: (
     context: GetServerSidePropsContext,
-    session?: any
+    session?: any,
+    profile?: any
   ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
 ) {
   return async (context: GetServerSidePropsContext) => {
-    const { req, query } = context;
+    const { req, res, query } = context;
     const url = context.resolvedUrl.split("?")[0];
     const tokens = req.session.tokens;
+    const profile = req.session.profile;
     const isPublicPath = publicPaths.find(path => path.route === url);
 
     if (query.tokens && isPublicPath && isPublicPath.policy === "notLogged") {
       try {
         req.session.tokens = JSON.parse(String(query.tokens));
+        const userInfo = await getUserInfo(req.session.tokens.access.token);
+        req.session.profile = userInfo;
+        setCookies("profile", JSON.stringify(userInfo), {
+          req,
+          res,
+          maxAge: 60 * 6 * 24,
+        });
         await req.session.save();
       } catch (err) {
         return await {
@@ -80,7 +91,7 @@ function withSessionSsr<
       };
     }
 
-    return await handler(context, tokens);
+    return await handler(context, tokens, profile);
   };
 }
 
@@ -89,9 +100,11 @@ export function withAuth<
 >(
   handler: (
     context: GetServerSidePropsContext,
-    session?: any
+    session?: any,
+    profile?: any
   ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
 ) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   return withIronSessionSsr(withSessionSsr(handler), sessionConfig);
 }
