@@ -1,12 +1,11 @@
 import React from "react";
 import { Button, Text, theme } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
 interface AnimatedButtonProps {
   icon: JSX.Element;
-  onClick: (e?: any) => any;
+  onClick: (e?) => unknown;
   className?: string;
   label?: string;
   selected?: boolean;
@@ -38,7 +37,7 @@ const ButtonContainer = styled(Button)<{ label: boolean; selected: boolean }>`
   }
 
   :hover {
-    ${p =>
+    ${(p: any) =>
       !p.selected &&
       css`
         background: transparent;

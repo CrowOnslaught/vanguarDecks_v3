@@ -1,51 +1,46 @@
 import { HamburgerIcon } from "@chakra-ui/icons";
-import styled from "@emotion/styled";
-import { Button, IconButton, Text, useColorModeValue } from "@chakra-ui/react";
-
-const HeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  height: ${p => p.theme.spaces._500};
-  margin: ${p => p.theme.spaces._400} 0;
-  padding: 0 ${p => p.theme.spaces._200};
-`;
-
-const HeaderTitle = styled(Text)`
-  font-weight: 700;
-`;
+import { IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Avatar } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { VisibilityDesktop } from "components/utils/Visibility";
 
 interface MainHeaderProps {
   className?: string;
   navigationOpen: boolean;
   toggleNavigation: (e: boolean) => void;
+  logged?: boolean;
 }
 
 const MainHeader: React.FC<MainHeaderProps> = ({
-  className,
   navigationOpen,
   toggleNavigation,
+  logged = true,
 }) => {
+  const titleColor = useColorModeValue("purple.600", "white");
+
   return (
-    <HeaderContainer className={className}>
-      {!navigationOpen ? (
-        <Button variant="unstyled" onClick={() => toggleNavigation(true)}>
-          <HamburgerIcon
-            boxSize={8}
-            color={useColorModeValue("purple.600", "white")}
+    <Flex align="center" justify={logged ? "space-between" : "center"} p="4">
+      {logged && (
+        <VisibilityDesktop>
+          <IconButton
+            aria-label=""
+            variant="unstyled"
+            icon={<HamburgerIcon boxSize="2em" />}
+            onClick={() => {
+              toggleNavigation(!navigationOpen);
+            }}
           />
-        </Button>
-      ) : (
-        <div></div>
+        </VisibilityDesktop>
       )}
-      <HeaderTitle
-        color={useColorModeValue("purple.600", "white")}
-        fontSize="2xl">
+      <Heading color={titleColor} size="lg">
         VanguarDecks
-      </HeaderTitle>
-      <p>photo</p>
-    </HeaderContainer>
+      </Heading>
+
+      {logged && (
+        <Avatar name="Dan Abrahmov" src="https://bit.ly/dan-abramov" />
+      )}
+    </Flex>
   );
 };
 

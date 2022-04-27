@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Text, theme } from "@chakra-ui/react";
+import { Heading, theme } from "@chakra-ui/react";
 import InfiniteScroll from "components/layout/InfiniteScroll";
 import { useMemo, useState } from "react";
 import { Input } from "@chakra-ui/react";
@@ -48,6 +48,7 @@ const Home = ({ cards }: HomeProps) => {
 
   return (
     <>
+      <Heading size="2xl">Cards</Heading>
       <Input onChange={onSearch} placeholder="Search" />
       <HomeInfiniteScroll
         data={currentCards}

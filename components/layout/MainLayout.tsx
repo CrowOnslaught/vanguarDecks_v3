@@ -4,7 +4,7 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { desktop } from "styles/mixins";
 import MainHeader from "./MainHeader";
-import DesktopNavigation from "./DesktopNavigation";
+import Navigation from "./Navigation";
 import { useState } from "react";
 
 const LayoutContainer = styled.main`
@@ -32,12 +32,13 @@ const HIDDING_PATHS = ["/login"];
 const MainLayout = ({ children }: any) => {
   const { pathname } = useRouter();
 
-  const [navigationOpen, setNavigationOpen] = useState<boolean>(true);
+  const [navigationOpen, setNavigationOpen] = useState<boolean>(false);
 
   if (HIDDING_PATHS.includes(pathname))
     return (
       <MainContainer>
         <MainHeader
+          logged={false}
           navigationOpen={navigationOpen}
           toggleNavigation={setNavigationOpen}
         />
@@ -48,7 +49,7 @@ const MainLayout = ({ children }: any) => {
   return (
     <LayoutContainer>
       <MainNavigationWrapper>
-        <DesktopNavigation
+        <Navigation
           open={navigationOpen}
           toggleNavigation={setNavigationOpen}
         />
