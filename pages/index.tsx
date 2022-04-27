@@ -65,14 +65,23 @@ const Home = ({ cards }: HomeProps) => {
 };
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async ({ req, res, resolvedUrl }, session) => {
-    const cards = await getCards(session.access.token);
-
-    return {
-      props: {
-        cards: cards.results,
-      },
-    };
+  async ({ req }, session) => {
+    try {
+      const cards = await getCards(session.access.token);
+      return {
+        props: {
+          cards: cards.results,
+        },
+      };
+    } catch (err) {
+      await req.session.destroy();
+      return await {
+        redirect: {
+          destination: "/",
+          statusCode: 302,
+        },
+      };
+    }
   }
 );
 

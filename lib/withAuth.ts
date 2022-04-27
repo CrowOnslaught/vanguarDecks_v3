@@ -6,6 +6,7 @@ import {
 } from "next";
 import { sessionConfig } from "config/sessionConfig";
 import { publicPaths } from "config/publicPaths";
+import { changeTimeZone } from "helpers/changeTimeZone";
 
 export function withSessionRoute(handler: NextApiHandler) {
   return withIronSessionApiRoute(handler, sessionConfig);
@@ -20,9 +21,32 @@ function withSessionSsr<
   ) => GetServerSidePropsResult<P> | Promise<GetServerSidePropsResult<P>>
 ) {
   return async (context: GetServerSidePropsContext) => {
-    const { req } = context;
+    const { req, query } = context;
+    const url = context.resolvedUrl.split("?")[0];
     const tokens = req.session.tokens;
-    const isPublicPath = publicPaths.find(path => path.route === req.url);
+    const isPublicPath = publicPaths.find(path => path.route === url);
+
+    if (query.tokens && isPublicPath && isPublicPath.policy === "notLogged") {
+      try {
+        req.session.tokens = JSON.parse(String(query.tokens));
+        await req.session.save();
+      } catch (err) {
+        return await {
+          redirect: {
+            destination: "/login",
+            statusCode: 302,
+          },
+        };
+      }
+
+      await req.session.save();
+      return await {
+        redirect: {
+          destination: "/",
+          statusCode: 302,
+        },
+      };
+    }
 
     if (!tokens && !isPublicPath) {
       return await {
@@ -33,7 +57,11 @@ function withSessionSsr<
       };
     }
 
-    if (tokens && new Date(tokens.access.expires) < new Date()) {
+    if (
+      tokens &&
+      changeTimeZone(tokens?.access.expires, "Europe/Paris") <
+        changeTimeZone(new Date().toString(), "Europe/Paris")
+    ) {
       await req.session.destroy();
       return await {
         redirect: {
