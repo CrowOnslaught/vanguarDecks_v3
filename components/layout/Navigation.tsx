@@ -17,7 +17,7 @@ const DesktopNavigationContainer = styled(Flex)<{ open: boolean }>`
   position: sticky;
   flex-direction: column;
   top: 0;
-  margin-left: ${(p: any) => (p.open ? 0 : -250)}px;
+  margin-left: ${p => (p.open ? 0 : -250)}px;
 
   padding: ${theme.space[6]};
   transition: all 0.5s;
@@ -41,8 +41,8 @@ const CloseButton = styled(Button)`
 `;
 
 const DesktopNavigationButton = styled(AnimatedButton)<{ selected: boolean }>`
-  background-color: ${(p: any) => p.selected && p.theme.colors.gray[100]};
-  color: ${(p: any) =>
+  background-color: ${p => p.selected && p.theme.colors.gray[100]};
+  color: ${p =>
     p.selected ? p.theme.colors.purple[700] : p.theme.colors.gray[100]};
 `;
 

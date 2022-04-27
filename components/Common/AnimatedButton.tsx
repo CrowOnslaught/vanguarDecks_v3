@@ -5,7 +5,7 @@ import { css } from "@emotion/react";
 
 interface AnimatedButtonProps {
   icon: JSX.Element;
-  onClick: (e?: any) => any;
+  onClick: (e?) => unknown;
   className?: string;
   label?: string;
   selected?: boolean;
@@ -37,7 +37,7 @@ const ButtonContainer = styled(Button)<{ label: boolean; selected: boolean }>`
   }
 
   :hover {
-    ${(p: any) =>
+    ${p =>
       !p.selected &&
       css`
         background: transparent;
