@@ -1,7 +1,7 @@
 import { GridItem, Icon, Text, theme } from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import Card from "models/Card";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import StyledCardDescription from "./StyledCardDescription";
 import Image from "next/image";
 import Power from "public/assets/svg/icons/Power.svg";
@@ -23,7 +23,7 @@ const CardDescrition = styled(StyledCardDescription)`
   opacity: 0;
   top: 100%;
   transition: all 0.5s ease-in;
-  padding: ${(p: any) => p.theme.space[4]};
+  padding: ${p => p.theme.spaces._200};
   background-color: #00000099;
 
   width: 100%;
@@ -32,9 +32,14 @@ const CardDescrition = styled(StyledCardDescription)`
 
 const CardItem = styled(GridItem)`
   display: flex;
-  gap: 4px;
+  gap: ${p => p.theme.spaces._100};
   flex-direction: column;
-  margin-bottom: 24px;
+  margin-bottom: ${p => p.theme.spaces._300};
+`;
+
+const ImageDescriptionWrapper = styled.div`
+  position: relative;
+  overflow: hidden;
 
   :hover {
     .cardImage {
@@ -49,33 +54,30 @@ const CardItem = styled(GridItem)`
   }
 `;
 
-const ImageDescriptionWrapper = styled.div`
-  position: relative;
-`;
-
 const StatsWrapper = styled.div`
   margin-top: auto;
-
+  line-height: ${p => p.theme.sizes._400};
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  color: ${(p: any) => p.theme.colors.gray[100]};
+  color: currentColor;
 
   > div {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 
-    height: 16px;
-    margin-right: ${(p: any) => p.theme.space[2]};
+    height: ${p => p.theme.spaces._200};
+    margin-right: ${p => p.theme.spaces._100};
 
     > svg {
       padding: 2px;
-      background-color: ${(p: any) => p.theme.colors.purple[600]};
-      margin-right: ${(p: any) => p.theme.space[1]};
+      background-color: ${p => p.theme.colors.purple[600]};
+      margin-right: ${p => p.theme.spaces._050};
+      color: ${p => p.theme.colors.gray[100]};
 
-      height: 16px;
-      width: 16px;
+      height: ${p => p.theme.spaces._200};
+      width: ${p => p.theme.spaces._200};
     }
 
     &:nth-of-type(2) {
@@ -92,6 +94,8 @@ interface dataConfigProps {
 }
 
 const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
+  const descRef = useRef(null);
+
   const DataConfig: dataConfigProps[] = [
     {
       text: card.power || "-",
@@ -111,9 +115,17 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
     },
   ];
 
+  useEffect(() => {
+    if (!descRef) return;
+
+    descRef.current?.addEventListener("mouseover", e => {
+      e.stopPropagation();
+    });
+  }, [descRef]);
+
   return (
     <CardItem className={className}>
-      <ImageDescriptionWrapper>
+      <ImageDescriptionWrapper ref={descRef}>
         <Image
           src={card.originalPhoto}
           alt={card.name}
@@ -135,13 +147,13 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
         {card.name}
       </CardTitle>
       <Text fontSize="sm" align="center">
-        {card.card_id}
+        {card.card_id.replace("_", "/")}
       </Text>
       <StatsWrapper>
         {DataConfig.map((e, i) => (
           <div key={i}>
-            {e.icon}
-            <Text fontSize="xs">{e.text}</Text>
+            <Icon>{e.icon}</Icon>
+            <Text fontSize="sm">{e.text}</Text>
           </div>
         ))}
       </StatsWrapper>

@@ -3,7 +3,6 @@ import { Button, Text, theme } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
-import { adaptiveColor } from "styles/mixins";
 
 interface AnimatedButtonProps {
   icon: JSX.Element;
@@ -20,10 +19,10 @@ const ButtonContainer = styled(Button)<{ label: boolean; selected: boolean }>`
   overflow: hidden;
 
   height: fit-content;
-  width: ${(p: any) => (p.label ? "150px" : "fit-content")};
+  width: ${p => (p.label ? "150px" : "fit-content")};
 
-  gap: ${(p: any) => p.theme.space[2]};
-  padding: 16px 8px;
+  gap: ${p => p.theme.spaces._100};
+  padding: ${p => p.theme.spaces._200} ${p => p.theme.spaces._100};
 
   ::before {
     content: "";
@@ -32,7 +31,7 @@ const ButtonContainer = styled(Button)<{ label: boolean; selected: boolean }>`
     left: -50px;
     width: 0;
     height: 100%;
-    background-color: ${(p: any) => p.theme.colors.purple[300]};
+    background-color: ${p => p.theme.colors.purple[300]};
     transform: skewX(35deg);
     z-index: -1;
     transition: width 1s;

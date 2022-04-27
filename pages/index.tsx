@@ -9,11 +9,6 @@ import { useRouter } from "next/router";
 import { getCards } from "services/apiCards";
 import { withAuth } from "lib/withAuth";
 
-const Title = styled(Text)`
-  font-family: "Lobster";
-  font-size: 40px;
-`;
-
 interface HomeProps {
   cards: Array<Card>;
 }
@@ -53,7 +48,6 @@ const Home = ({ cards }: HomeProps) => {
 
   return (
     <>
-      <Title>Cards</Title>
       <Input onChange={onSearch} placeholder="Search" />
       <HomeInfiniteScroll
         data={currentCards}
