@@ -56,8 +56,8 @@ const CloseAnimatedButton = styled(Button)`
 `;
 
 const DesktopNavigationButton = styled(AnimatedButton)<{ selected: boolean }>`
-  background-color: ${(p: any) => p.selected && p.theme.colors.gray[100]};
-  color: ${(p: any) =>
+  background-color: ${p => p.selected && p.theme.colors.gray[100]};
+  color: ${p =>
     p.selected ? p.theme.colors.purple[600] : p.theme.colors.gray[100]};
 `;
 
