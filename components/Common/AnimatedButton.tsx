@@ -37,7 +37,7 @@ const ButtonContainer = styled(Button)<{ label: boolean; selected: boolean }>`
   }
 
   :hover {
-    ${(p: any) =>
+    ${p =>
       !p.selected &&
       css`
         background: transparent;
