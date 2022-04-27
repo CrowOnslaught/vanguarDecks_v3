@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 import { useRouter } from "next/router";
 import { adaptiveColor } from "styles/mixins";
 
-import IconButton from "components/Common/IconButton";
+import AnimatedButton from "components/Common/AnimatedButton";
 import { CloseIcon, SearchIcon } from "@chakra-ui/icons";
-import { Text, Flex, Icon, theme } from "@chakra-ui/react";
+import { Text, Flex, Icon, theme, Button } from "@chakra-ui/react";
 
 import Cards from "public/assets/svg/icons/Cards.svg";
 import Decks from "public/assets/svg/icons/Decks.svg";
@@ -46,14 +46,17 @@ const DesktopNavigationUpTitle = styled(Text)`
   }
 `;
 
-const CloseIconButton = styled(IconButton)`
+const CloseAnimatedButton = styled(Button)`
   margin-bottom: 64px;
+  font-size: 24px;
+  text-align: left;
+  width: fit-content;
 `;
 
-const DesktopNavigationButton = styled(IconButton)<{ selected: boolean }>`
+const DesktopNavigationButton = styled(AnimatedButton)<{ selected: boolean }>`
   background-color: ${(p: any) => p.selected && p.theme.colors.gray[100]};
   color: ${(p: any) =>
-    p.selected ? p.theme.colors.purple[700] : p.theme.colors.gray[100]};
+    p.selected ? p.theme.colors.purple[600] : p.theme.colors.gray[100]};
 `;
 
 interface NavigationProps {
@@ -116,10 +119,11 @@ const DesktopNavigation: React.FC<NavigationProps> = ({
 
   return (
     <DesktopNavigationContainer open={open}>
-      <CloseIconButton
-        onClick={() => toggleNavigation(false)}
-        icon={<CloseIcon />}
-      />
+      <CloseAnimatedButton
+        variant="unstyled"
+        onClick={() => toggleNavigation(false)}>
+        <CloseIcon />
+      </CloseAnimatedButton>
       {navigationItems.map((item, key) => (
         <React.Fragment key={key}>
           {item.upTitle && (
