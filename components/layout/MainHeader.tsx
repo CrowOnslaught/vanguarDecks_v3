@@ -4,7 +4,6 @@ import {
   Button,
   IconButton,
   MenuButton,
-  MenuGroup,
   MenuItem,
   MenuList,
   useColorModeValue,
@@ -14,10 +13,8 @@ import { Avatar, Menu } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { VisibilityDesktop } from "components/utils/Visibility";
-import { getCookie, checkCookies } from "cookies-next";
-import User from "models/User";
+import { useProfile } from "contexts/profileContext";
 import router from "next/router";
-import { useEffect, useState } from "react";
 
 interface MainHeaderProps {
   className?: string;
@@ -31,15 +28,8 @@ const MainHeader: React.FC<MainHeaderProps> = ({
   toggleNavigation,
   logged = true,
 }) => {
-  const [profile, setProfile] = useState<User>();
+  const { profile } = useProfile();
   const titleColor = useColorModeValue("purple.600", "white");
-
-  useEffect(() => {
-    if (checkCookies("profile")) {
-      const profileCookie = getCookie("profile") as string;
-      setProfile(JSON.parse(profileCookie));
-    }
-  }, [profile]);
 
   return (
     <Flex align="center" justify="space-between" p="4">
