@@ -1,11 +1,22 @@
-import { HamburgerIcon } from "@chakra-ui/icons";
-import { Box, Button, IconButton, useColorModeValue } from "@chakra-ui/react";
-import { Avatar } from "@chakra-ui/react";
+import { ChevronDownIcon, HamburgerIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Button,
+  IconButton,
+  MenuButton,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  useColorModeValue,
+  Text,
+} from "@chakra-ui/react";
+import { Avatar, Menu } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react";
 import { Flex } from "@chakra-ui/react";
 import { VisibilityDesktop } from "components/utils/Visibility";
 import { getCookie, checkCookies } from "cookies-next";
 import User from "models/User";
+import router from "next/router";
 import { useEffect, useState } from "react";
 
 interface MainHeaderProps {
@@ -28,7 +39,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({
       const profileCookie = getCookie("profile") as string;
       setProfile(JSON.parse(profileCookie));
     }
-  }, []);
+  }, [profile]);
 
   return (
     <Flex align="center" justify="space-between" p="4">
@@ -49,10 +60,25 @@ const MainHeader: React.FC<MainHeaderProps> = ({
       </Heading>
 
       {logged ? (
-        <Avatar
-          name={profile?.name}
-          src={profile?.photo || "https://bit.ly/dan-abramov"}
-        />
+        profile && (
+          <Menu>
+            <MenuButton
+              as={Button}
+              rightIcon={<ChevronDownIcon h="50px" />}
+              variant="unstyled">
+              <Avatar size="md" name={profile.name} src={profile.photo} />
+            </MenuButton>
+            <MenuList>
+              <Box p={3}>
+                <Text fontSize="md">{profile.name}</Text>
+                <Text>{profile.email}</Text>
+              </Box>
+              <MenuItem onClick={() => router.push("/api/auth/logout")}>
+                Log out
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        )
       ) : (
         <Box>
           <Button bg="purple.600">Login</Button>

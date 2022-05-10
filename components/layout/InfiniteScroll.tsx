@@ -13,6 +13,10 @@ interface ContentProps {
 
 const InfiniteScrollGrid = styled(Grid)`
   overflow: hidden;
+
+  @media (min-width: ${p => p.theme.breakpoints.lg}) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 `;
 
 const Content = ({ data, filters, nextPage, className }: ContentProps) => {
@@ -24,15 +28,16 @@ const Content = ({ data, filters, nextPage, className }: ContentProps) => {
     <>
       <InfiniteScroll
         dataLength={data.length}
-        next={() => {}}
+        next={() => {
+          console.log("a");
+        }}
         hasMore={hasMore}
         loader={<h3> Loading...</h3>}
         endMessage={<h4>Nothing more to show</h4>}
         className={className}>
         <InfiniteScrollGrid
           templateColumns="repeat( auto-fit, minmax(150px, 1fr) )"
-          gap={2}
-          autoColumns="min-content">
+          gap={2}>
           {data.map((card, index) => (
             <CardDisplay card={card} key={index} />
           ))}
