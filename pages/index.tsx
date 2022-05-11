@@ -1,16 +1,22 @@
 import styled from "@emotion/styled";
-import { Heading, theme } from "@chakra-ui/react";
+import { Box, Heading, Input, InputGroup, theme } from "@chakra-ui/react";
 import InfiniteScroll from "components/layout/InfiniteScroll";
 import { useMemo, useState } from "react";
-import { Input } from "@chakra-ui/react";
+import { InputLeftElement } from "@chakra-ui/react";
 import Card from "models/Card";
 import { GetServerSideProps } from "next/types";
-import { useRouter } from "next/router";
-import { getCards } from "services/apiCards";
+import { getCards, searchCards, getTypes, getClans } from "services/apiCards";
 import { withAuth } from "lib/withAuth";
+import { useRouter } from "next/router";
+import { SearchIcon } from "@chakra-ui/icons";
 
 interface HomeProps {
   cards: Array<Card>;
+  page: number;
+  hasNextPage?: boolean;
+  totalDocs: number;
+  types: string[];
+  clans: string[];
 }
 
 const HomeInfiniteScroll = styled(InfiniteScroll)`
@@ -18,30 +24,56 @@ const HomeInfiniteScroll = styled(InfiniteScroll)`
   overflow: hidden;
 `;
 
-const Home = ({ cards }: HomeProps) => {
+const Home = ({
+  cards,
+  page,
+  hasNextPage,
+  totalDocs,
+  types,
+  clans,
+}: HomeProps) => {
   const router = useRouter();
-  const [currentCards, setCurrentCards] = useState<Array<Card>>(cards);
+  const [currentCards, setCurrentCards] = useState<Array<Card>>([]);
+  const filters = router.query;
 
   useMemo(() => {
-    setCurrentCards(oldArray => [...oldArray, ...currentCards]);
+    setCurrentCards(oldArray => [...oldArray, ...cards]);
   }, [cards]);
 
   const nextPage = () => {
-    if (!router.query.page) {
-      return router.push(`/?page=2`);
+    if (hasNextPage) {
+      router.push(
+        {
+          query: {
+            ...router.query,
+            page: page + 1,
+          },
+        },
+        undefined,
+        { scroll: false }
+      );
     }
+  };
+
+  const setFilter = (key: string, value: string) => {
+    setCurrentCards([]);
 
     router.push(
-      `/?page=${parseInt(String(router.query.page)) + 1}`,
-      undefined,
       {
-        scroll: false,
-      }
+        query: {
+          ...router.query,
+          [key]: value,
+        },
+      },
+      undefined,
+      { scroll: false }
     );
   };
 
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
+    setCurrentCards([]);
+    router.push(`/?search=${value}`);
   };
 
   if (!currentCards) return <>No cards displayed</>;
@@ -49,26 +81,56 @@ const Home = ({ cards }: HomeProps) => {
   return (
     <>
       <Heading size="2xl">Cards</Heading>
-      <Input onChange={onSearch} placeholder="Search" />
+      <Heading>{totalDocs} results</Heading>
+      <Box py="4">
+        <InputGroup>
+          <InputLeftElement
+            pointerEvents="none"
+            // eslint-disable-next-line react/no-children-prop
+            children={<SearchIcon color="gray.300" />}
+          />
+          <Input onChange={onSearch} placeholder="Search..." />
+        </InputGroup>
+      </Box>
+
       <HomeInfiniteScroll
         data={currentCards}
-        filters={{}}
+        filters={filters}
+        types={types}
+        clans={clans}
+        setFilter={setFilter}
         nextPage={nextPage}
+        hasMore={hasNextPage}
       />
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = withAuth(
-  async ({ req }, session) => {
+  async ({ req, query }, session) => {
     try {
-      const cards = await getCards(session.access.token);
+      let cards;
+
+      if (query.search) {
+        cards = await searchCards(session.access.token, query);
+      } else {
+        cards = await getCards(session.access.token, query);
+      }
+      const clans = await getClans(session.access.token);
+      const types = await getTypes(session.access.token);
+
       return {
         props: {
-          cards: cards.results,
+          cards: cards.docs,
+          clans,
+          types,
+          page: cards.page,
+          hasNextPage: cards.hasNextPage,
+          totalDocs: cards.totalDocs,
         },
       };
     } catch (err) {
+      console.log(err);
       await req.session.destroy();
       return await {
         redirect: {

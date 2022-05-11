@@ -1,17 +1,32 @@
-import { GridItem, Icon, Text, theme } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Icon,
+  Text,
+  theme,
+} from "@chakra-ui/react";
 import styled from "@emotion/styled";
 import Card from "models/Card";
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import StyledCardDescription from "./StyledCardDescription";
 import Image from "next/image";
 import Power from "public/assets/svg/icons/Power.svg";
 import Shield from "public/assets/svg/icons/Shield.svg";
 import Grade from "public/assets/svg/icons/Grade.svg";
-import Type from "public/assets/svg/icons/Type.svg";
+import { VisibilityDesktop, VisibilityMobile } from "./utils/Visibility";
+import { Grid } from "@chakra-ui/react";
+
+export enum CardDisplayModes {
+  List = "list",
+  Grid = "grid",
+}
 
 interface CardDisplayProps {
   card: Card;
   className?: string;
+  mode: CardDisplayModes;
 }
 
 const CardTitle = styled(Text)`
@@ -28,13 +43,6 @@ const CardDescrition = styled(StyledCardDescription)`
 
   width: 100%;
   height: 100%;
-`;
-
-const CardItem = styled(GridItem)`
-  display: flex;
-  gap: ${p => p.theme.spaces._100};
-  flex-direction: column;
-  margin-bottom: ${p => p.theme.spaces._300};
 `;
 
 const ImageDescriptionWrapper = styled.div`
@@ -93,7 +101,7 @@ interface dataConfigProps {
   icon: JSX.Element;
 }
 
-const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
+const CardDisplay: React.FC<CardDisplayProps> = ({ card, className, mode }) => {
   const DataConfig: dataConfigProps[] = [
     {
       text: card.power || "-",
@@ -109,32 +117,107 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
     },
   ];
 
+  if (mode === CardDisplayModes.List) {
+    return (
+      <Grid gap="4" templateColumns="1fr 1fr 4fr" marginBottom="4">
+        <Flex direction="column" gap="4">
+          <Button bg="purple.600">
+            <Text fontSize="xs">
+              + <br />
+              Add card
+            </Text>
+          </Button>
+          <Button bg="purple.600">
+            <Text fontSize="xs">View details</Text>
+          </Button>
+        </Flex>
+        <Box>
+          <Box w="4em">
+            <Image
+              src={card.originalPhoto}
+              alt={card.name}
+              layout="responsive"
+              width={350}
+              height={510}
+              placeholder="blur"
+              blurDataURL={card.originalPhoto}
+              className="cardImage"
+            />
+          </Box>
+        </Box>
+        <Box h="100%">
+          <Text fontSize="sm" align="left">
+            {card.card_id.replace("_", "/")}
+          </Text>
+          <CardTitle fontSize="md" align="left">
+            {card.name}
+          </CardTitle>
+          <StatsWrapper>
+            {DataConfig.map((e, i) => (
+              <div key={i}>
+                <Icon>{e.icon}</Icon>
+                <Text fontSize="sm">{e.text}</Text>
+              </div>
+            ))}
+          </StatsWrapper>
+          <VisibilityDesktop>
+            <Text>{card.description}</Text>
+          </VisibilityDesktop>
+        </Box>
+      </Grid>
+    );
+  }
+
   return (
-    <CardItem className={className}>
-      <ImageDescriptionWrapper>
-        <Image
-          src={card.originalPhoto}
-          alt={card.name}
-          layout="responsive"
-          width={350}
-          height={510}
-          placeholder="blur"
-          blurDataURL={card.originalPhoto}
-          className="cardImage"
-        />
-        <CardDescrition
-          className="floatingText"
-          fontSize="sm"
-          align="left"
-          text={card.description}
-        />
-      </ImageDescriptionWrapper>
-      <CardTitle fontSize="sm" align="center">
-        {card.name}
-      </CardTitle>
-      <Text fontSize="sm" align="center">
-        {card.card_id.replace("_", "/")}
-      </Text>
+    <Flex direction={"column"} marginBottom="4">
+      <a href={`/card/${card.card_id}`}>
+        <VisibilityDesktop>
+          <ImageDescriptionWrapper>
+            <Image
+              src={card.originalPhoto}
+              alt={card.name}
+              layout="responsive"
+              width={350}
+              height={510}
+              placeholder="blur"
+              blurDataURL={card.originalPhoto}
+              className="cardImage"
+            />
+
+            <CardDescrition
+              className="floatingText"
+              fontSize="sm"
+              align="left"
+              text={card.description}
+            />
+          </ImageDescriptionWrapper>
+        </VisibilityDesktop>
+        <VisibilityMobile>
+          <Image
+            src={card.originalPhoto}
+            alt={card.name}
+            layout="responsive"
+            width={350}
+            height={510}
+            placeholder="blur"
+            blurDataURL={card.originalPhoto}
+            className="cardImage"
+          />
+        </VisibilityMobile>
+      </a>
+      <Button
+        marginTop="-5px"
+        bg="purple.600"
+        w="100%"
+        borderRadius="0 0 6px 6px">
+        + Add card
+      </Button>
+      <Box my="2">
+        <Text fontSize="sm" align="left">
+          {card.card_id.replace("_", "/")}
+        </Text>
+        <Heading size="xs">{card.name}</Heading>
+      </Box>
       <StatsWrapper>
         {DataConfig.map((e, i) => (
           <div key={i}>
@@ -143,7 +226,7 @@ const CardDisplay: React.FC<CardDisplayProps> = ({ card, className }) => {
           </div>
         ))}
       </StatsWrapper>
-    </CardItem>
+    </Flex>
   );
 };
 

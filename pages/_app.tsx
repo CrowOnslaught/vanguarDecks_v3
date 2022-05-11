@@ -7,6 +7,7 @@ import { getCookie } from "cookies-next";
 import { NextPageContext } from "next";
 import User from "models/User";
 import { ProfileProvider } from "contexts/profileContext";
+import { useMemo } from "react";
 
 interface MyAppProps extends AppProps {
   profile: User | null;
@@ -14,14 +15,17 @@ interface MyAppProps extends AppProps {
 
 GlobalStyle();
 function MyApp({ Component, pageProps, profile }: MyAppProps) {
-  return (
-    <ChakraProvider theme={theme}>
-      <ProfileProvider profile={profile}>
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
-      </ProfileProvider>
-    </ChakraProvider>
+  return useMemo(
+    () => (
+      <ChakraProvider theme={theme}>
+        <ProfileProvider profile={profile}>
+          <MainLayout>
+            <Component {...pageProps} />
+          </MainLayout>
+        </ProfileProvider>
+      </ChakraProvider>
+    ),
+    [pageProps]
   );
 }
 

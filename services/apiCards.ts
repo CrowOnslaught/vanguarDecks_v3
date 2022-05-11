@@ -79,4 +79,69 @@ const getCards = async (token: string, filters?: APIFilters) => {
   return cardsRes;
 };
 
-export { getToken, getCards, registerUser, getUserInfo };
+const getCard = async (token: string, id: string) => {
+  console.log(`cards/${id}`);
+  const cardsRes = await apiHandler(`cards/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return cardsRes;
+};
+
+const getClans = async (token: string, filters?: APIFilters) => {
+  let filtersQuery;
+  if (filters) filtersQuery = filtersToQuery(filters);
+  const cardsRes = await apiHandler(
+    `cards/clans${filtersQuery !== undefined ? `?${filtersQuery}` : ""}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return cardsRes;
+};
+
+const getTypes = async (token: string, filters?: APIFilters) => {
+  let filtersQuery;
+  if (filters) filtersQuery = filtersToQuery(filters);
+  const cardsRes = await apiHandler(
+    `cards/types${filtersQuery !== undefined ? `?${filtersQuery}` : ""}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return cardsRes;
+};
+
+const searchCards = async (token: string, filters?: APIFilters) => {
+  let filtersQuery;
+  if (filters) filtersQuery = filtersToQuery(filters);
+  const cardsRes = await apiHandler(
+    `cards/search${filtersQuery !== undefined ? `?${filtersQuery}` : ""}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  return cardsRes;
+};
+
+export {
+  getToken,
+  getCards,
+  getCard,
+  registerUser,
+  getUserInfo,
+  searchCards,
+  getClans,
+  getTypes,
+};

@@ -1,28 +1,30 @@
 export type APIFilters = {
-  sortBy?: string;
+  sort?: string;
   limit?: number;
-  page?: number;
-}
-
-const filtersToQuery = (obj:APIFilters) =>  {
-    const query = Object.entries(obj).map((value) => {
-        return `${value[0]}=${value[1]}`;
-    }).join('&');
-    return query;
+  page?: number | string;
+  search?: string;
 };
 
-const queryToFilters = (query:string) => {
-    const filters = {};
-    const queryArr = query.split('&');
-    queryArr.map((value) => {
-        const [keyName, keyValue] = value.split('=');
-        // @ts-ignore
-        filters[keyName] = keyValue;
+const filtersToQuery = (obj: APIFilters) => {
+  const query = Object.entries(obj)
+    .map(value => {
+      return `${value[0]}=${value[1]}`;
     })
-    return filters as APIFilters;
+    .join("&");
+  return query;
 };
 
-export {
-    filtersToQuery,
-    queryToFilters
-}
+const queryToFilters = (query: string) => {
+  const filters = {};
+  const queryArr = query.split("&");
+  queryArr.map(value => {
+    const [keyName, keyValue] = value.split("=");
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    filters[keyName] = keyValue;
+  });
+  return filters as APIFilters;
+};
+
+export { filtersToQuery, queryToFilters };

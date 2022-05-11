@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { objectToQueryString } from 'helpers/utils';
+import { NextApiRequest, NextApiResponse } from "next";
+import { objectToQueryString } from "helpers/utils";
 
 export default async (req: NextApiRequest, res: NextApiResponse<any>) => {
   try {
