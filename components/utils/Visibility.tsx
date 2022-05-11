@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
 
 const VisibilityMobile = styled.div`
-  @media (min-width: 1280px) {
+  @media (min-width: ${p => p.theme.breakpoints.lg}) {
     display: none;
   }
 `;
 
 const VisibilityDesktop = styled.div`
   display: none;
-  @media (min-width: 1280px) {
+  @media (min-width: ${p => p.theme.breakpoints.lg}) {
     display: block;
   }
 `;

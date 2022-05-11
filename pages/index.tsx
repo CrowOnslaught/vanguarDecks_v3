@@ -20,7 +20,7 @@ interface HomeProps {
 }
 
 const HomeInfiniteScroll = styled(InfiniteScroll)`
-  margin-top: ${theme.space[4]};
+  margin-top: ${p => p.theme.spaces._400};
   overflow: hidden;
 `;
 
